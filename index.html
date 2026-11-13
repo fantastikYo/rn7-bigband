@@ -69,6 +69,56 @@
   .actu h3{font-family:"Playfair Display";font-size:22px;margin-bottom:4px}
   .actu .lieu{color:var(--laiton);font-size:14px;margin-bottom:6px}
   .actu p{color:#ddd5c4}
+  .actu .corps{min-width:0}
+  .actu.avec-photo{grid-template-columns:90px 1fr 170px}
+  .voir-plus{margin-top:12px;font:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--laiton2);border:1px solid var(--laiton);border-radius:999px;padding:6px 14px}
+  .voir-plus:hover{background:var(--laiton);color:var(--nuit)}
+  .vignette-actu{position:relative;align-self:start;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:#0b0c10;aspect-ratio:4/3}
+  .vignette-actu img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .vignette-actu:hover img{transform:scale(1.05)}
+  .vignette-actu span{position:absolute;right:6px;bottom:6px;background:rgba(18,19,26,.85);color:var(--laiton2);font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
+  @media(max-width:700px){
+    .actu,.actu.avec-photo{grid-template-columns:64px 1fr;gap:14px;padding:16px}
+    .date .j{font-size:34px}
+    .vignette-actu{grid-column:1/-1;grid-row:1;aspect-ratio:16/9}
+  }
+
+  /* Fenêtre « Voir plus » */
+  .popin-actu{border:0;padding:0;margin:auto;width:min(1000px,calc(100% - 24px));max-height:calc(100dvh - 24px);background:var(--nuit2);color:var(--creme);border-radius:12px;border-top:4px solid var(--laiton);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .popin-actu::backdrop{background:rgba(5,6,10,.85);backdrop-filter:blur(3px)}
+  .pp-contenu{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);max-height:calc(100dvh - 28px);overflow:auto}
+  .popin-actu.une-photo .pp-contenu{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .pp-galerie[hidden]{display:none}
+  .pp-galerie[hidden] + .pp-infos{grid-column:1/-1}
+  .pp-galerie{background:#0b0c10;display:flex;flex-direction:column}
+  .pp-scene{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:300px}
+  .pp-img{max-width:100%;max-height:70dvh;object-fit:contain;display:block}
+  .pp-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--laiton);background:rgba(18,19,26,.75);color:var(--laiton2);font-size:26px;line-height:1;cursor:pointer}
+  .pp-nav:hover{background:var(--laiton);color:var(--nuit)}
+  .pp-prec{left:10px} .pp-suiv{right:10px}
+  .pp-compteur{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(18,19,26,.8);font-size:12px;padding:2px 10px;border-radius:999px;color:var(--gris)}
+  .une-photo .pp-nav,.une-photo .pp-compteur{display:none}
+  .pp-miniatures{display:flex;gap:6px;padding:8px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--laiton) #0b0c10}
+  .pp-miniatures:empty{display:none}
+  .pp-miniatures button{flex:0 0 64px;height:48px;padding:0;border:2px solid transparent;border-radius:4px;overflow:hidden;cursor:pointer;background:none;opacity:.55}
+  .pp-miniatures button[aria-current="true"]{border-color:var(--laiton);opacity:1}
+  .pp-miniatures img{width:100%;height:100%;object-fit:cover;display:block}
+  .pp-infos{padding:28px 26px}
+  .pp-date{font-family:"Bebas Neue";letter-spacing:2px;color:var(--laiton);font-size:18px}
+  .pp-titre{font-family:"Playfair Display";font-size:26px;line-height:1.2;margin:4px 40px 6px 0}
+  .pp-lieu{color:var(--laiton2);font-size:14px;margin-bottom:14px}
+  .pp-texte p{color:#ddd5c4;margin-bottom:12px}
+  .pp-credit{font-size:12px;color:var(--gris);font-style:italic;margin-top:4px}
+  .pp-fb{display:inline-block;margin-top:16px;font-size:14px}
+  .pp-fermer{position:absolute;top:8px;right:10px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.8);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
+  .pp-fermer:hover{color:var(--laiton2)}
+  @media(max-width:760px){
+    .pp-contenu,.popin-actu.une-photo .pp-contenu{grid-template-columns:minmax(0,1fr)}
+    .pp-scene{min-height:220px}
+    .pp-img{max-height:50dvh}
+    .pp-infos{padding:20px 18px}
+    .pp-titre{font-size:22px}
+  }
   .pager{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px;flex-wrap:wrap}
   .pager[hidden]{display:none}
   .pager span{color:var(--gris);font-size:14px}
@@ -189,6 +239,28 @@
   <div class="wrap">© <span id="annee"></span> RN7 Big Band · <a href="https://www.facebook.com/rn7bigband" target="_blank" rel="noopener">facebook.com/rn7bigband</a></div>
 </footer>
 
+<dialog class="popin-actu" id="popin-actu" aria-labelledby="pp-titre">
+  <button type="button" class="pp-fermer" aria-label="Fermer">×</button>
+  <div class="pp-contenu">
+    <div class="pp-galerie">
+      <div class="pp-scene">
+        <img class="pp-img" alt="">
+        <button type="button" class="pp-nav pp-prec" aria-label="Photo précédente">‹</button>
+        <button type="button" class="pp-nav pp-suiv" aria-label="Photo suivante">›</button>
+        <span class="pp-compteur"></span>
+      </div>
+      <div class="pp-miniatures"></div>
+    </div>
+    <div class="pp-infos">
+      <div class="pp-date"></div>
+      <h3 class="pp-titre" id="pp-titre"></h3>
+      <div class="pp-lieu"></div>
+      <div class="pp-texte"></div>
+      <div class="pp-credit"></div>
+      <a class="pp-fb" href="https://www.facebook.com/rn7bigband" target="_blank" rel="noopener">Plus de photos sur notre page Facebook ›</a>
+    </div>
+  </div>
+</dialog>
 <div class="lightbox" id="lightbox"><button aria-label="Fermer">×</button><iframe allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>
 
 <script>
@@ -209,55 +281,132 @@ const CONFIG = {
 };
 
 /* ACTUALITÉS — uniquement les concerts du RN7 Big Band (triés automatiquement par date).
-   Copiez un bloc { ... }, collez-le en haut de la liste et modifiez-le.
-   date au format "AAAA-MM-JJ". Le badge "À venir" s'affiche tout seul. */
+   Copiez un bloc { ... } n'importe où dans la liste et modifiez-le.
+   date au format "AAAA-MM-JJ". Le badge "À venir" s'affiche tout seul.
+   Facultatif :
+   - details : paragraphes affichés dans la fenêtre « Voir plus » (sinon, c'est "texte" qui est repris)
+   - photos  : nombre de photos, rangées dans assets/actus/AAAA-MM-JJ/1.jpg, 2.jpg…
+   - credit  : auteur des photos */
 const ACTUALITES = [
   { date: "2026-10-03", titre: "Les Vieilles Canailles pour les 50 ans d'Altitude 723", lieu: "Salle des fêtes — Les Sauvages",
-    texte: "Le Jeff7 et le RN7 Big Band s'associent pour présenter leur spectacle des Vieilles Canailles, à l'occasion du week-end de festivités pour les 50 ans de l'association Altitude 723." },
+    texte: "Le Jeff7 et le RN7 Big Band s'associent pour présenter leur spectacle des Vieilles Canailles, à l'occasion du week-end des 50 ans de l'association Altitude 723.",
+    details: [
+      "Belle soirée en perspective ! Le Jeff7 Band et le RN7 Big Band s'associent pour présenter leur spectacle des Vieilles Canailles, à l'occasion du week-end de festivités pour les 50 ans de l'association Altitude 723.",
+      "Samedi 3 octobre à 20 h 30, salle des fêtes des Sauvages. Prévente : 15 € — sur place : 18 €."
+    ],
+    photos: 1, credit: "Affiche : Altitude 723" },
   { date: "2026-09-11", titre: "Concert à la brasserie Hoodo", lieu: "Brasserie Hoodo — Tarare",
-    texte: "Le RN7 est heureux de vous retrouver à la brasserie Hoodo ce vendredi, à partir de 18 h. Venez déguster les bières artisanales et vous restaurer en musique !" },
+    texte: "Le RN7 est heureux de vous retrouver à la brasserie Hoodo ce vendredi, à partir de 18 h. Venez déguster les bières artisanales et vous restaurer en musique !",
+    photos: 1 },
   { date: "2026-05-29", titre: "Concert au Crescent", lieu: "Le Crescent — Mâcon",
-    texte: "Concert du RN7 Big Band au Crescent, le vendredi 29 mai à 19 h 30. Merci au public et à l'équipe du club pour cette belle soirée ! (Photos M. Bonnetain)" },
+    texte: "Concert du RN7 Big Band au Crescent, le vendredi 29 mai à 19 h 30. Merci au public et à l'équipe du club pour cette belle soirée !",
+    details: [
+      "Le RN7 Big Band était heureux de retrouver le Crescent de Mâcon le vendredi 29 mai à 19 h 30, pour une belle fin de journée en musique.",
+      "Merci au Crescent pour son accueil et pour ce beau retour en images de la soirée."
+    ],
+    photos: 6, credit: "Photos : M. Bonnetain / Le Crescent" },
   { date: "2026-01-11", titre: "Les Vieilles Canailles à Saint-Étienne", lieu: "Salle Comète — Saint-Étienne",
-    texte: "Quel kiff ces deux concerts du RN7 avec la belle équipe du Jeff7, autour des standards des Vieilles Canailles, dans le cadre de la programmation musicale de la ville de Saint-Étienne !" },
-  { date: "2025-09-20", titre: "Le RN7 voyage en Ardèche !", lieu: "Saint-Étienne-de-Fontbellon (Aubenas)",
-    texte: "Concert « Les Vieilles Canailles » avec le Jeff7 Band le samedi 20 septembre. Merci à la commune pour son accueil !" },
+    texte: "Quel kiff ces deux concerts du RN7 avec la belle équipe du Jeff7, autour des standards des Vieilles Canailles, dans le cadre de la programmation musicale de la ville de Saint-Étienne !",
+    photos: 5 },
+  { date: "2025-09-20", titre: "Les Vieilles Canailles en Ardèche", lieu: "Espace Maurice Champel — Saint-Étienne-de-Fontbellon (Aubenas)",
+    texte: "Le RN7 voyage à Aubenas ! Concert « Les Vieilles Canailles » avec le Jeff7 Band, devant près de 170 spectateurs.",
+    details: [
+      "Le RN7 voyage en Ardèche ! Concert « Les Vieilles Canailles » avec le Jeff7 Band le samedi 20 septembre.",
+      "Le concert a rassemblé près de 170 spectateurs à l'espace Maurice Champel pour une soirée pleine d'énergie. Les 21 musiciens du Jeff7 Band et du RN7 ont enflammé la scène en reprenant les grands succès du trio Dutronc, Hallyday et Mitchell.",
+      "Après une première partie rythmée, un entracte original a surpris tout le monde avec un spectacle de lasers dansant au rythme de la musique. La soirée a atteint son apogée avec « Allumer le feu », repris en chœur par toute la salle.",
+      "Un grand merci au Comité d'animations de la commune pour son accueil."
+    ],
+    photos: 6, credit: "Photos : commune de Saint-Étienne-de-Fontbellon" },
   { date: "2025-06-27", titre: "Concert à la brasserie Hoodo", lieu: "Brasserie Hoodo — Tarare",
-    texte: "Le RN7 est heureux de vous annoncer son concert à la brasserie Hoodo, le 27 juin à partir de 20 h." },
-  { date: "2025-05-30", titre: "Soirée big bands à Saint-Chamond", lieu: "Saint-Chamond",
-    texte: "Match retour ! Le RN7 rendait visite à ses amis du Jazz'ier Big Band pour une soirée spéciale big bands aux Jeudis du Château, avec Rhino Jazz. Merci pour cette belle soirée !" },
+    texte: "Le RN7 est heureux de vous annoncer son concert à la brasserie Hoodo, le 27 juin à partir de 20 h.",
+    photos: 1 },
+  { date: "2025-05-22", titre: "Soirée big bands à Saint-Chamond", lieu: "Salle Aristide Briand — Saint-Chamond",
+    texte: "Match retour ! Le RN7 rendait visite à ses amis du Jazz'ier Big Band pour une soirée spéciale big bands des Jeudis du Château.",
+    details: [
+      "Match retour ! Le RN7 Big Band était heureux de rendre visite à ses amis de Saint-Chamond pour une soirée spéciale big bands, dans le cadre des Jeudis du Château.",
+      "Organisée par le Rhino Jazz(s) en partenariat avec le conservatoire de Saint-Chamond, la soirée réunissait deux big bands : le Jazz'ier Big Band, dirigé par Michel Goutagny, puis le RN7. Jeudi 22 mai à 20 h, entrée libre.",
+      "Un grand merci au Jazz'ier Big Band pour cette belle soirée !"
+    ],
+    photos: 1 },
   { date: "2025-02-15", titre: "Jazzapontch 2025", lieu: "Pontcharra-sur-Turdine",
-    texte: "Merci au public pour cette belle édition de Jazzapontch 2025 ! Et bravo au Jazz'ier Big Band pour sa première partie." },
+    texte: "Le RN7 en concert pour Jazzapontch 2025, avec le Jazz'ier Big Band de Saint-Chamond en première partie. Merci au public pour cette belle édition !",
+    details: [
+      "Jazzapontch 2025 ! Le RN7 Big Band vous donnait rendez-vous le 15 février à Pontcharra-sur-Turdine, avec le Jazz'ier Big Band de Saint-Chamond en première partie.",
+      "Merci au public pour cette belle édition, et bravo au Jazz'ier Big Band pour sa première partie !"
+    ],
+    photos: 4 },
   { date: "2024-11-16", titre: "Dîner-concert à la Commanderie", lieu: "Salle de la Commanderie — Pontcharra-sur-Turdine",
-    texte: "Rejoignez-nous pour un dîner-concert avec le Jeff'7 Band et le RN7 Big Band." },
+    texte: "Une très belle soirée dîner-concert : le Jeff'7 Band et le RN7 Big Band reprennent les plus grands classiques des Vieilles Canailles.",
+    details: [
+      "Le samedi 16 novembre 2024, le RN7 vous donnait rendez-vous à la salle de la Commanderie de Pontcharra-sur-Turdine pour un dîner-concert.",
+      "Le Jeff'7 Band et le RN7 Big Band y reprenaient les plus grands classiques des Vieilles Canailles, avec le groupe local Guilty en première partie."
+    ],
+    photos: 1 },
   { date: "2024-09-14", titre: "Les 10 ans du Centre culturel d'Écully", lieu: "Centre culturel — Écully",
-    texte: "Concert pour les 10 ans du Centre culturel d'Écully, et dernier concert du RN7 sous la direction d'Anthony Genetet, après 20 ans d'engagement auprès du groupe. Merci pour tout !" },
-  { date: "2023-11-04", titre: "Dîner-concert du FCPSL", lieu: "",
-    texte: "Le RN7 en concert pour le premier dîner-concert organisé par le FCPSL." },
-  { date: "2023-06-22", titre: "Le RN7 s'encanaille !", lieu: "",
-    texte: "21 musiciens sur scène au service de la voix de Benjamin Chambe pour reprendre les plus grands tubes des Vieilles Canailles. Un concert de folie !" },
+    texte: "Concert pour les 10 ans du Centre culturel d'Écully, et dernier concert du RN7 sous la direction d'Anthony Genetet, après 20 ans d'engagement auprès du groupe.",
+    details: [
+      "Le RN7 Big Band était ravi de se produire pour les 10 ans du Centre culturel d'Écully, le samedi 14 septembre. Un concert chargé d'émotion : c'était le dernier de notre chef Anthony Genetet, après 20 ans de direction.",
+      "Merci Chef ! Tu as façonné le groupe par ton exigence, le recrutement régulier de musiciens, ton talent artistique, tes coups de gueule et ton humour inimitable. Sous ta direction, le RN7 a changé de dimension. Un grand merci, et plein de joies dans tes nouveaux projets musicaux !"
+    ],
+    photos: 3 },
+  { date: "2023-11-04", titre: "Dîner-concert du FCPSL", lieu: "Salle de la Commanderie — Pontcharra-sur-Turdine",
+    texte: "Le Jeff'7 Band et le RN7 Big Band en concert pour le premier dîner-concert du FCPSL : 21 musiciens sur scène pour les classiques des Vieilles Canailles.",
+    details: [
+      "Pour son premier dîner-concert, le FCPSL invitait le Jeff'7 Band et le RN7 Big Band : 21 musiciens sur scène pour faire revivre les classiques des Vieilles Canailles (Jacques Dutronc, Eddy Mitchell et Johnny Hallyday).",
+      "Samedi 4 novembre, salle de la Commanderie à Pontcharra-sur-Turdine."
+    ],
+    photos: 1, credit: "Image : FCPSL" },
+  { date: "2023-06-21", titre: "Le RN7 s'encanaille !", lieu: "Place Maurand — Le Péage-de-Roussillon",
+    texte: "Pour la fête de la musique, 21 musiciens sur scène au service de la voix de Benjamin Chambe pour reprendre les plus grands tubes des Vieilles Canailles.",
+    details: [
+      "Le RN7 Big Band s'encanaille ! 21 musiciens sur scène au service de la voix de Benjamin Chambe pour reprendre les plus grands tubes des Vieilles Canailles.",
+      "Un concert exceptionnel le 21 juin à 21 h 30 pour la fête de la musique, après l'inauguration de la place Maurand au Péage-de-Roussillon.",
+      "Un concert de folie ! Merci au Jeff7 d'avoir bien voulu se mélanger avec nous, big up à Benj au chant, à Jean-François Farge pour les arrangements, à tous les musiciens présents sur scène, et aux techniciens son et lumière pour leur boulot de malade."
+    ],
+    photos: 5, credit: "Photos : Anthony Genetet" },
   { date: "2023-06-02", titre: "Apéro-concert au Crescent", lieu: "Le Crescent — Mâcon",
-    texte: "Un bon week-end commence en musique : apéro-concert le vendredi à 19 h 30. Une belle soirée, et le Crescent toujours aussi beau !" },
-  { date: "2023-05-14", titre: "Apéro musical", lieu: "",
-    texte: "On vous attend pour un apéro musical, avec un chouette programme varié pour bien débuter votre week-end." },
-  { date: "2023-03-08", titre: "Repas-concert : notre nouveau répertoire", lieu: "",
-    texte: "Venez découvrir notre nouveau répertoire ! Repas et concert : 30 € — concert seul : 12 €." },
-  { date: "2022-05-14", titre: "Jazz à Pontch 2022", lieu: "Pontcharra-sur-Turdine",
-    texte: "Le RN7 Big Band en concert pour la nouvelle édition de Jazz à Pontch. Première partie assurée par les élèves de l'EMDI." },
-  { date: "2022-04-10", titre: "Retour sur scène à Trévoux", lieu: "Trévoux",
-    texte: "Quelle joie de retrouver la scène ! Une belle prestation collective, sublimée par la voix de Manon, pour le concert organisé par le Rotary Club de Trévoux." },
+    texte: "Un bon week-end commence en musique : apéro-concert le vendredi 2 juin à 19 h 30. Une belle soirée, et le Crescent toujours aussi beau !",
+    details: [
+      "Un bon week-end commence en musique ! Le RN7 Big Band vous attendait pour un apéro-concert au Crescent de Mâcon, le vendredi 2 juin à 19 h 30, avec un chouette programme varié.",
+      "Une belle soirée : le plus dur était de se garer… Après, que du bonheur ! Merci au Crescent pour son accueil, toujours aussi beau."
+    ],
+    photos: 3 },
+  { date: "2023-03-18", titre: "Repas-concert à La Mulatière", lieu: "Salle du Tabagnon — La Mulatière",
+    texte: "Concert du RN7 Big Band organisé par l'école de musique et de danse de La Mulatière. Venez découvrir notre nouveau répertoire !",
+    details: [
+      "Samedi 18 mars, concert du RN7 Big Band organisé par l'école de musique et de danse de La Mulatière. Venez découvrir notre nouveau répertoire !",
+      "Salle du Tabagnon, 102 chemin des Chassagnes à La Mulatière. Repas servi à partir de 19 h, concert à 20 h 30. Repas et concert : 30 € — concert seul : 12 €."
+    ],
+    photos: 1 },
+  { date: "2022-05-14", titre: "Jazz à Pontch 2022", lieu: "Salle de la Commanderie — Pontcharra-sur-Turdine",
+    texte: "Le RN7 Big Band en concert pour la nouvelle édition de Jazz à Pontch. Première partie assurée par les élèves de l'EMDI.",
+    details: [
+      "Le RN7 Big Band était en concert le samedi 14 mai pour la nouvelle édition de Jazz à Pontch, avec les élèves de l'EMDI en première partie. Buvette et petite restauration sur place.",
+      "Après une répétition studieuse, un beau programme vous attendait !"
+    ],
+    photos: 1 },
+  { date: "2022-04-08", titre: "Soirée jazz du Rotary", lieu: "Amphithéâtre du lycée de Cibeins — Misérieux",
+    texte: "Le RN7 remonte sur scène pour le concert organisé par le Rotary Club de Trévoux, avec Manon Coursol au chant.",
+    details: [
+      "Le RN7 Big Band remontait sur scène pour présenter son nouveau répertoire, lors du concert organisé par le Rotary Club de Trévoux. Direction : Anthony Genetet — chant : Manon Coursol.",
+      "Quelle joie de retrouver la scène ! Une belle prestation collective, sublimée par la voix envoûtante et captivante de Manon et par des improvisations inspirées. Merci au Rotary Club de Trévoux pour cette invitation !"
+    ],
+    photos: 4 },
   { date: "2019-10-12", titre: "Concert au Crescent", lieu: "Le Crescent — Mâcon",
-    texte: "Petit retour en images sur notre concert du samedi soir au Crescent. Crédit photos : Marc Bonnetain." },
+    texte: "Petit retour en images sur notre concert du samedi soir au Crescent.",
+    photos: 5, credit: "Photos : Marc Bonnetain" },
   { date: "2017-02-04", titre: "De retour au Hot Club de Lyon", lieu: "Hot Club de Lyon",
     texte: "Concert à 20 h 30, avec plein de nouveautés pour cette nouvelle année !" },
+  { date: "2016-04-14", titre: "Concert privé à Rotterdam", lieu: "Rotterdam (Pays-Bas)",
+    texte: "Et si on partait à Rotterdam pour un concert très privé ? Balances à Rotterdam !" },
   { date: "2016-03-05", titre: "Méga concert au Crescent", lieu: "Crescent Jazz Club — Mâcon",
     texte: "C'est ce soir, les amis : on vous attend pour un méga concert !" },
-  { date: "2016-02-01", titre: "Concert privé à Rotterdam", lieu: "Rotterdam (Pays-Bas)",
-    texte: "Et si on partait à Rotterdam pour un concert très privé ?" },
-  { date: "2014-04-12", titre: "Concert à Amplepuis", lieu: "Amplepuis",
-    texte: "Concert du RN7 Big Band le samedi 12 avril à 20 h 30." },
+  { date: "2014-04-12", titre: "Soirée jazz à Amplepuis", lieu: "Amplepuis",
+    texte: "Concert du RN7 Big Band le samedi 12 avril à 20 h 30.",
+    photos: 1 },
   { date: "2013-11-23", titre: "Au Hot Club de Lyon", lieu: "Hot Club de Lyon",
-    texte: "De retour au Hot Club de Lyon le samedi 23 novembre. Réservez votre soirée !" },
+    texte: "De retour au Hot Club de Lyon le samedi 23 novembre. Réservez votre soirée !",
+    photos: 2 },
 ];
 
 /* VIDÉOS — collez simplement le lien YouTube complet et un titre. */
@@ -283,13 +432,19 @@ ACTUALITES.sort((a, b) => b.date.localeCompare(a.date));
 const PAR_PAGE = 10;
 const listeActus = document.getElementById("liste-actus"), pagerActus = document.getElementById("pager-actus");
 const pagesActus = Math.max(1, Math.ceil(ACTUALITES.length / PAR_PAGE));
+const photosActu = a => Array.from({length: a.photos || 0}, (_, i) => `assets/actus/${a.date}/${i + 1}.jpg`);
 function carteActu(a){
   const d = new Date(a.date + "T00:00:00");
   const avenir = d >= aujourdhui;
-  return `<article class="actu">
+  const i = ACTUALITES.indexOf(a), ph = photosActu(a);
+  const plus = ph.length || (a.details && a.details.length);
+  return `<article class="actu${ph.length ? ' avec-photo' : ''}">
     <div class="date"><div class="j">${d.getDate()}</div><div class="m">${MOIS[d.getMonth()]}</div><div class="a">${d.getFullYear()}</div></div>
-    <div>${avenir ? '<span class="tag avenir">À venir</span>' : ''}
-      <h3>${echap(a.titre)}</h3>${a.lieu ? `<div class="lieu">${echap(a.lieu)}</div>` : ''}<p>${echap(a.texte)}</p></div>
+    <div class="corps">${avenir ? '<span class="tag avenir">À venir</span>' : ''}
+      <h3>${echap(a.titre)}</h3>${a.lieu ? `<div class="lieu">${echap(a.lieu)}</div>` : ''}<p>${echap(a.texte)}</p>
+      ${plus ? `<button type="button" class="voir-plus" data-actu="${i}">Voir plus${ph.length > 1 ? ` · ${ph.length} photos` : ''}</button>` : ''}</div>
+    ${ph.length ? `<button type="button" class="vignette-actu" data-actu="${i}" aria-label="Voir les photos : ${echap(a.titre)}">
+      <img src="${ph[0]}" alt="" loading="lazy">${ph.length > 1 ? `<span>+${ph.length - 1}</span>` : ''}</button>` : ''}
   </article>`;
 }
 function pageActus(n, defiler){
@@ -304,6 +459,54 @@ function pageActus(n, defiler){
 }
 pagerActus.addEventListener("click", e => { const b = e.target.closest("button[data-page]"); if (b) pageActus(+b.dataset.page, true); });
 pageActus(1, false);
+
+// Fenêtre « Voir plus »
+const popin = document.getElementById("popin-actu");
+const pp = { img: popin.querySelector(".pp-img"), compteur: popin.querySelector(".pp-compteur"), miniatures: popin.querySelector(".pp-miniatures"),
+             galerie: popin.querySelector(".pp-galerie"), credit: popin.querySelector(".pp-credit") };
+let ppPhotos = [], ppIndex = 0;
+function ppAfficher(n){
+  if (!ppPhotos.length) return;
+  ppIndex = (n + ppPhotos.length) % ppPhotos.length;
+  pp.img.src = ppPhotos[ppIndex];
+  pp.compteur.textContent = `${ppIndex + 1} / ${ppPhotos.length}`;
+  pp.miniatures.querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-current", k === ppIndex));
+}
+function ouvrirActu(a){
+  const d = new Date(a.date + "T00:00:00");
+  popin.querySelector(".pp-date").textContent = d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+  popin.querySelector(".pp-titre").textContent = a.titre;
+  const lieu = popin.querySelector(".pp-lieu"); lieu.textContent = a.lieu || ""; lieu.hidden = !a.lieu;
+  popin.querySelector(".pp-texte").innerHTML = (a.details && a.details.length ? a.details : [a.texte]).map(t => `<p>${echap(t)}</p>`).join("");
+  ppPhotos = photosActu(a);
+  pp.galerie.hidden = !ppPhotos.length;
+  popin.classList.toggle("une-photo", ppPhotos.length < 2);
+  pp.img.alt = a.titre;
+  pp.miniatures.innerHTML = ppPhotos.length > 1 ? ppPhotos.map((src, k) => `<button type="button" data-k="${k}" aria-label="Photo ${k + 1}"><img src="${src}" alt="" loading="lazy"></button>`).join("") : "";
+  pp.credit.textContent = a.credit || ""; pp.credit.hidden = !a.credit;
+  ppAfficher(0);
+  popin.showModal();
+  popin.querySelector(".pp-contenu").scrollTop = 0;
+}
+listeActus.addEventListener("click", e => { const b = e.target.closest("[data-actu]"); if (b) ouvrirActu(ACTUALITES[+b.dataset.actu]); });
+popin.querySelector(".pp-fermer").addEventListener("click", () => popin.close());
+popin.addEventListener("click", e => { if (e.target === popin) popin.close(); });
+popin.querySelector(".pp-prec").addEventListener("click", () => ppAfficher(ppIndex - 1));
+popin.querySelector(".pp-suiv").addEventListener("click", () => ppAfficher(ppIndex + 1));
+pp.miniatures.addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) ppAfficher(+b.dataset.k); });
+popin.addEventListener("keydown", e => {
+  if (ppPhotos.length < 2) return;
+  if (e.key === "ArrowLeft") { ppAfficher(ppIndex - 1); e.preventDefault(); }
+  if (e.key === "ArrowRight") { ppAfficher(ppIndex + 1); e.preventDefault(); }
+});
+let ppToucheX = null;
+pp.img.addEventListener("touchstart", e => { ppToucheX = e.touches[0].clientX; }, {passive: true});
+pp.img.addEventListener("touchend", e => {
+  if (ppToucheX === null || ppPhotos.length < 2) return;
+  const dx = e.changedTouches[0].clientX - ppToucheX; ppToucheX = null;
+  if (Math.abs(dx) > 40) ppAfficher(ppIndex + (dx < 0 ? 1 : -1));
+});
+popin.addEventListener("close", () => { pp.img.removeAttribute("src"); });
 
 // Galerie
 const lb = document.getElementById("lightbox"), lbFrame = lb.querySelector("iframe");
