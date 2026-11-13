@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="rouge">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,56 +8,72 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#12131a">
+<meta name="theme-color" content="#0d0d0f">
+<script>try{var t=localStorage.getItem("rn7-theme");if(t==="or"||t==="rouge")document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
+  /* Thème « or » : noir et or */
   :root{
-    --nuit:#12131a; --nuit2:#1c1e28; --laiton:#d4a64a; --laiton2:#f0cf7f;
-    --rouge:#c8202f; --creme:#f4ecdc; --gris:#a9a6a0;
+    --nuit:#12131a; --nuit2:#1c1e28; --accent:#d4a64a; --accent2:#f0cf7f; --titre:#f0cf7f; --sur-accent:#12131a;
+    --rouge:#c8202f; --creme:#f4ecdc; --gris:#a9a6a0; --texte2:#ddd5c4; --bord:#2e3040;
+    --voile-nav:rgba(18,19,26,.92); --voile:rgba(18,19,26,.8); --lueur:#3a2a12; --rayon:rgba(212,166,74,.07); --fond-photo:#0b0c10;
+  }
+  /* Thème « rouge » : couleurs du logo d'origine (rouge, noir, blanc) */
+  :root[data-theme="rouge"]{
+    --nuit:#0d0d0f; --nuit2:#18181b; --accent:#d71920; --accent2:#ff4d55; --titre:#fff; --sur-accent:#fff;
+    --rouge:#d71920; --creme:#f5f5f5; --gris:#a3a3a8; --texte2:#d9d9dc; --bord:#2c2c31;
+    --voile-nav:rgba(13,13,15,.92); --voile:rgba(13,13,15,.8); --lueur:#4a0b10; --rayon:rgba(215,25,32,.055); --fond-photo:#000;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Inter,system-ui,sans-serif;background:var(--nuit);color:var(--creme);line-height:1.6}
-  a{color:var(--laiton2)}
+  a{color:var(--accent2)}
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 
   /* Navigation */
-  nav{position:sticky;top:0;z-index:20;background:rgba(18,19,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid #2a2c38}
+  nav{position:sticky;top:0;z-index:20;background:var(--voile-nav);backdrop-filter:blur(8px);border-bottom:1px solid var(--bord)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
   .borne{display:inline-flex;align-items:center;text-decoration:none}
   .borne img{height:36px;width:auto;display:block}
   nav ul{display:flex;gap:22px;list-style:none}
   nav ul a{color:var(--creme);text-decoration:none;font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
-  nav ul a:hover{color:var(--laiton2)}
+  nav ul a:hover{color:var(--accent2)}
   @media(max-width:600px){nav .wrap{flex-direction:column;justify-content:center;gap:6px;height:auto;padding-top:8px;padding-bottom:8px} nav ul{gap:14px} nav ul a{font-size:11px;letter-spacing:.5px;white-space:nowrap} .borne img{height:26px}}
+
+  .theme{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--bord);background:transparent;cursor:pointer}
+  .theme span{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#d71920 50%,#d4a64a 50%)}
+  .theme:hover{border-color:var(--accent)}
+  nav ul li{display:flex;align-items:center}
+
+  :root[data-theme="rouge"] .actu .lieu,:root[data-theme="rouge"] .pp-date{color:var(--accent2)}
 
   /* Accueil */
   header.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;
-    background:radial-gradient(ellipse at 50% 120%,#3a2a12 0%,var(--nuit) 60%)}
-  .rayons{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 110%,rgba(212,166,74,.07) 0 4deg,transparent 4deg 12deg)}
+    background:radial-gradient(ellipse at 50% 120%,var(--lueur) 0%,var(--nuit) 60%)}
+  .rayons{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 110%,var(--rayon) 0 4deg,transparent 4deg 12deg)}
   .hero .wrap{position:relative}
-  .hero h1{font-family:"Bebas Neue";font-size:clamp(44px,9vw,92px);letter-spacing:6px;color:var(--laiton2);line-height:1}
+  .hero h1{font-family:"Bebas Neue";font-size:clamp(44px,9vw,92px);letter-spacing:6px;color:var(--accent2);line-height:1}
   .hero h1.logo{line-height:0}
   .hero h1.logo img{width:clamp(170px,32vw,280px);height:auto;filter:drop-shadow(0 6px 24px rgba(0,0,0,.55))}
   .hero p.slogan{font-family:"Playfair Display";font-style:italic;font-size:clamp(18px,3vw,26px);margin:14px 0 30px}
-  .btn{display:inline-block;background:var(--laiton);color:var(--nuit);font-weight:600;text-decoration:none;padding:12px 26px;border-radius:40px;letter-spacing:1px;text-transform:uppercase;font-size:14px;border:0;cursor:pointer}
-  .btn:hover{background:var(--laiton2)}
-  .btn.ghost{background:transparent;color:var(--laiton2);border:1px solid var(--laiton);margin-left:8px}
+  .btn{display:inline-block;background:var(--accent);color:var(--sur-accent);font-weight:600;text-decoration:none;padding:12px 26px;border-radius:40px;letter-spacing:1px;text-transform:uppercase;font-size:14px;border:0;cursor:pointer}
+  .btn:hover{background:var(--accent2)}
+  .btn.ghost{background:transparent;color:var(--accent2);border:1px solid var(--accent);margin-left:8px}
 
   section{padding:80px 0}
-  h2{font-family:"Bebas Neue";font-size:48px;letter-spacing:3px;color:var(--laiton2);margin-bottom:8px}
+  h2{font-family:"Bebas Neue";font-size:48px;letter-spacing:3px;color:var(--titre);margin-bottom:8px}
   h2 + .trait{width:60px;height:3px;background:var(--rouge);margin-bottom:34px}
 
   /* Le groupe */
   #groupe{background:var(--nuit2)}
   .groupe{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-  .groupe p{margin-bottom:14px;color:#ddd5c4}
+  .groupe p{margin-bottom:14px;color:var(--texte2)}
   .chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .chiffre{border:1px solid #33354a;border-radius:10px;padding:22px 10px;text-align:center}
-  .chiffre b{display:block;font-family:"Bebas Neue";font-size:52px;color:var(--laiton2);line-height:1}
-  .refs{font-size:14px;color:var(--gris)!important;border-top:1px solid #33354a;padding-top:14px}
+  .chiffre{border:1px solid var(--bord);border-radius:10px;padding:22px 10px;text-align:center}
+  .chiffre b{display:block;font-family:"Bebas Neue";font-size:52px;color:var(--accent2);line-height:1}
+  .refs{font-size:14px;color:var(--gris)!important;border-top:1px solid var(--bord);padding-top:14px}
   .chiffre small{color:var(--gris);text-transform:uppercase;letter-spacing:1px;font-size:11px}
   @media(max-width:760px){.groupe{grid-template-columns:1fr}}
 
@@ -65,18 +81,18 @@
   .actus{display:grid;gap:18px}
   .actu{display:grid;grid-template-columns:90px 1fr;gap:20px;background:var(--nuit2);border-left:4px solid var(--rouge);border-radius:8px;padding:20px}
   .date{text-align:center;font-family:"Bebas Neue";line-height:1}
-  .date .j{font-size:44px;color:var(--laiton2)} .date .m{font-size:18px;letter-spacing:2px} .date .a{font-size:14px;color:var(--gris)}
+  .date .j{font-size:44px;color:var(--accent2)} .date .m{font-size:18px;letter-spacing:2px} .date .a{font-size:14px;color:var(--gris)}
   .actu h3{font-family:"Playfair Display";font-size:22px;margin-bottom:4px}
-  .actu .lieu{color:var(--laiton);font-size:14px;margin-bottom:6px}
-  .actu p{color:#ddd5c4}
+  .actu .lieu{color:var(--accent);font-size:14px;margin-bottom:6px}
+  .actu p{color:var(--texte2)}
   .actu .corps{min-width:0}
   .actu.avec-photo{grid-template-columns:90px 1fr 170px}
-  .voir-plus{margin-top:12px;font:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--laiton2);border:1px solid var(--laiton);border-radius:999px;padding:6px 14px}
-  .voir-plus:hover{background:var(--laiton);color:var(--nuit)}
-  .vignette-actu{position:relative;align-self:start;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:#0b0c10;aspect-ratio:4/3}
+  .voir-plus{margin-top:12px;font:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--accent2);border:1px solid var(--accent);border-radius:999px;padding:6px 14px}
+  .voir-plus:hover{background:var(--accent);color:var(--sur-accent)}
+  .vignette-actu{position:relative;align-self:start;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--fond-photo);aspect-ratio:4/3}
   .vignette-actu img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
   .vignette-actu:hover img{transform:scale(1.05)}
-  .vignette-actu span{position:absolute;right:6px;bottom:6px;background:rgba(18,19,26,.85);color:var(--laiton2);font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
+  .vignette-actu span{position:absolute;right:6px;bottom:6px;background:var(--voile);color:var(--accent2);font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
   @media(max-width:700px){
     .actu,.actu.avec-photo{grid-template-columns:64px 1fr;gap:14px;padding:16px}
     .date .j{font-size:34px}
@@ -84,34 +100,34 @@
   }
 
   /* Fenêtre « Voir plus » */
-  .popin-actu{border:0;padding:0;margin:auto;width:min(1000px,calc(100% - 24px));max-height:calc(100dvh - 24px);background:var(--nuit2);color:var(--creme);border-radius:12px;border-top:4px solid var(--laiton);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .popin-actu{border:0;padding:0;margin:auto;width:min(1000px,calc(100% - 24px));max-height:calc(100dvh - 24px);background:var(--nuit2);color:var(--creme);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
   .popin-actu::backdrop{background:rgba(5,6,10,.85);backdrop-filter:blur(3px)}
   .pp-contenu{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);max-height:calc(100dvh - 28px);overflow:auto}
   .popin-actu.une-photo .pp-contenu{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pp-galerie[hidden]{display:none}
   .pp-galerie[hidden] + .pp-infos{grid-column:1/-1}
-  .pp-galerie{background:#0b0c10;display:flex;flex-direction:column}
+  .pp-galerie{background:var(--fond-photo);display:flex;flex-direction:column}
   .pp-scene{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:300px}
   .pp-img{max-width:100%;max-height:70dvh;object-fit:contain;display:block}
-  .pp-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--laiton);background:rgba(18,19,26,.75);color:var(--laiton2);font-size:26px;line-height:1;cursor:pointer}
-  .pp-nav:hover{background:var(--laiton);color:var(--nuit)}
+  .pp-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--accent);background:var(--voile);color:var(--accent2);font-size:26px;line-height:1;cursor:pointer}
+  .pp-nav:hover{background:var(--accent);color:var(--sur-accent)}
   .pp-prec{left:10px} .pp-suiv{right:10px}
-  .pp-compteur{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(18,19,26,.8);font-size:12px;padding:2px 10px;border-radius:999px;color:var(--gris)}
+  .pp-compteur{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:var(--voile);font-size:12px;padding:2px 10px;border-radius:999px;color:var(--gris)}
   .une-photo .pp-nav,.une-photo .pp-compteur{display:none}
-  .pp-miniatures{display:flex;gap:6px;padding:8px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--laiton) #0b0c10}
+  .pp-miniatures{display:flex;gap:6px;padding:8px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--accent) var(--fond-photo)}
   .pp-miniatures:empty{display:none}
   .pp-miniatures button{flex:0 0 64px;height:48px;padding:0;border:2px solid transparent;border-radius:4px;overflow:hidden;cursor:pointer;background:none;opacity:.55}
-  .pp-miniatures button[aria-current="true"]{border-color:var(--laiton);opacity:1}
+  .pp-miniatures button[aria-current="true"]{border-color:var(--accent);opacity:1}
   .pp-miniatures img{width:100%;height:100%;object-fit:cover;display:block}
   .pp-infos{padding:28px 26px}
-  .pp-date{font-family:"Bebas Neue";letter-spacing:2px;color:var(--laiton);font-size:18px}
+  .pp-date{font-family:"Bebas Neue";letter-spacing:2px;color:var(--accent);font-size:18px}
   .pp-titre{font-family:"Playfair Display";font-size:26px;line-height:1.2;margin:4px 40px 6px 0}
-  .pp-lieu{color:var(--laiton2);font-size:14px;margin-bottom:14px}
-  .pp-texte p{color:#ddd5c4;margin-bottom:12px}
+  .pp-lieu{color:var(--accent2);font-size:14px;margin-bottom:14px}
+  .pp-texte p{color:var(--texte2);margin-bottom:12px}
   .pp-credit{font-size:12px;color:var(--gris);font-style:italic;margin-top:4px}
   .pp-fb{display:inline-block;margin-top:16px;font-size:14px}
-  .pp-fermer{position:absolute;top:8px;right:10px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.8);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
-  .pp-fermer:hover{color:var(--laiton2)}
+  .pp-fermer{position:absolute;top:8px;right:10px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:var(--voile);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
+  .pp-fermer:hover{color:var(--accent2)}
   @media(max-width:760px){
     .pp-contenu,.popin-actu.une-photo .pp-contenu{grid-template-columns:minmax(0,1fr)}
     .pp-scene{min-height:220px}
@@ -122,16 +138,16 @@
   .pager{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px;flex-wrap:wrap}
   .pager[hidden]{display:none}
   .pager span{color:var(--gris);font-size:14px}
-  .pager button{font:inherit;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--laiton2);border:1px solid var(--laiton);border-radius:999px;padding:9px 18px}
-  .pager button:hover:not(:disabled){background:var(--laiton);color:var(--nuit)}
+  .pager button{font:inherit;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--accent2);border:1px solid var(--accent);border-radius:999px;padding:9px 18px}
+  .pager button:hover:not(:disabled){background:var(--accent);color:var(--sur-accent)}
   .pager button:disabled{opacity:.35;cursor:default}
-  .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:#2e3040;padding:2px 8px;border-radius:4px;margin-bottom:6px}
+  .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:var(--bord);padding:2px 8px;border-radius:4px;margin-bottom:6px}
   .tag.avenir{background:var(--rouge);color:#fff}
 
   /* Galerie */
   #galerie{background:var(--nuit2)}
   .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
-  .video{background:#000;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid #2a2c38;transition:transform .2s}
+  .video{background:#000;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--bord);transition:transform .2s}
   .video:hover{transform:translateY(-3px)}
   .vignette{position:relative;aspect-ratio:16/9;background:#222 center/cover}
   .vignette::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px;border-radius:50%;
@@ -150,27 +166,28 @@
 
   /* Contact */
   .contact{display:grid;grid-template-columns:1fr 1.3fr;gap:40px}
-  .contact p{color:#ddd5c4;margin-bottom:12px}
+  .contact p{color:var(--texte2);margin-bottom:12px}
   form{display:grid;gap:14px}
-  input,textarea{width:100%;background:var(--nuit2);border:1px solid #33354a;border-radius:8px;padding:12px 14px;color:var(--creme);font:inherit}
-  input:focus,textarea:focus{outline:2px solid var(--laiton);border-color:transparent}
+  input,textarea{width:100%;background:var(--nuit2);border:1px solid var(--bord);border-radius:8px;padding:12px 14px;color:var(--creme);font:inherit}
+  input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
   textarea{min-height:140px;resize:vertical}
-  .reseaux a{display:inline-block;margin-right:14px;text-decoration:none;border-bottom:1px solid var(--laiton)}
+  .reseaux a{display:inline-block;margin-right:14px;text-decoration:none;border-bottom:1px solid var(--accent)}
   @media(max-width:760px){.contact{grid-template-columns:1fr}}
 
-  footer{border-top:1px solid #2a2c38;padding:30px 0;text-align:center;color:var(--gris);font-size:13px}
+  footer{border-top:1px solid var(--bord);padding:30px 0;text-align:center;color:var(--gris);font-size:13px}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <a class="borne" href="#accueil"><img src="assets/logo-rn7-ligne.svg" alt="RN7 Big Band" width="635" height="124"></a>
+    <a class="borne" href="#accueil"><img src="assets/logo-rn7-ligne-rouge.svg" data-logo="logo-rn7-ligne" alt="RN7 Big Band" width="635" height="124"></a>
     <ul>
       <li><a href="#groupe">Le groupe</a></li>
       <li><a href="#actualites">Actualités</a></li>
       <li><a href="#galerie">Galerie</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><button type="button" class="theme" id="bouton-theme" aria-label="Changer de thème (rouge / or)" title="Changer de thème"><span></span></button></li>
     </ul>
   </div>
 </nav>
@@ -178,12 +195,26 @@
 <header class="hero" id="accueil">
   <div class="rayons"></div>
   <div class="wrap">
-    <h1 class="logo"><img src="assets/logo-rn7.svg" alt="RN7 Big Band" width="732" height="792"></h1>
+    <h1 class="logo"><img src="assets/logo-rn7-rouge.svg" data-logo="logo-rn7" alt="RN7 Big Band" width="732" height="792"></h1>
     <p class="slogan">Un swing enfiévré, mâtiné d'accents latins et de sensualité vocale…</p>
     <a class="btn" href="#actualites">Prochains concerts</a>
     <a class="btn ghost" href="#galerie">Nous écouter</a>
   </div>
 </header>
+
+<script>
+  function appliquerTheme(t){
+    document.documentElement.dataset.theme = t;
+    document.querySelectorAll("img[data-logo]").forEach(i => i.src = "assets/" + i.dataset.logo + (t === "rouge" ? "-rouge" : "") + ".svg");
+    document.querySelector('meta[name="theme-color"]').content = t === "rouge" ? "#0d0d0f" : "#12131a";
+  }
+  appliquerTheme(document.documentElement.dataset.theme);
+  document.getElementById("bouton-theme").addEventListener("click", () => {
+    const t = document.documentElement.dataset.theme === "rouge" ? "or" : "rouge";
+    appliquerTheme(t);
+    try{ localStorage.setItem("rn7-theme", t); }catch(e){}
+  });
+</script>
 
 <section id="groupe">
   <div class="wrap groupe">
