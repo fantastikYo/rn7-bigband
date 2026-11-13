@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RN7 Big Band — Swing, swing et encore du swing</title>
+<meta name="description" content="RN7 Big Band, grande formation de jazz de la région lyonnaise dirigée par Anthony Genetet : middle jazz, swing et latin. Actualités, vidéos et contact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --nuit:#12131a; --nuit2:#1c1e28; --laiton:#d4a64a; --laiton2:#f0cf7f;
+    --rouge:#c8202f; --creme:#f4ecdc; --gris:#a9a6a0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--nuit);color:var(--creme);line-height:1.6}
+  a{color:var(--laiton2)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* Navigation */
+  nav{position:sticky;top:0;z-index:20;background:rgba(18,19,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid #2a2c38}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .borne{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--creme);font-family:"Bebas Neue";font-size:22px;letter-spacing:1px}
+  .borne span.n{background:var(--rouge);color:#fff;border:2px solid #fff;border-radius:4px;padding:0 8px;font-size:20px;line-height:26px;box-shadow:0 0 0 2px var(--rouge)}
+  nav ul{display:flex;gap:22px;list-style:none}
+  nav ul a{color:var(--creme);text-decoration:none;font-size:14px;letter-spacing:1.5px;text-transform:uppercase}
+  nav ul a:hover{color:var(--laiton2)}
+  @media(max-width:600px){nav ul{gap:12px} nav ul a{font-size:11px;letter-spacing:.5px} .borne .txt{display:none}}
+
+  /* Accueil */
+  header.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;
+    background:radial-gradient(ellipse at 50% 120%,#3a2a12 0%,var(--nuit) 60%)}
+  .rayons{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 110%,rgba(212,166,74,.07) 0 4deg,transparent 4deg 12deg)}
+  .hero .wrap{position:relative}
+  .hero .panneau{display:inline-block;background:var(--rouge);border:5px solid #fff;outline:5px solid var(--rouge);border-radius:10px;
+    font-family:"Bebas Neue";font-size:clamp(64px,14vw,140px);line-height:1;padding:10px 34px 2px;color:#fff;margin-bottom:22px}
+  .hero h1{font-family:"Bebas Neue";font-size:clamp(44px,9vw,92px);letter-spacing:6px;color:var(--laiton2);line-height:1}
+  .hero p.slogan{font-family:"Playfair Display";font-style:italic;font-size:clamp(18px,3vw,26px);margin:14px 0 30px}
+  .btn{display:inline-block;background:var(--laiton);color:var(--nuit);font-weight:600;text-decoration:none;padding:12px 26px;border-radius:40px;letter-spacing:1px;text-transform:uppercase;font-size:14px;border:0;cursor:pointer}
+  .btn:hover{background:var(--laiton2)}
+  .btn.ghost{background:transparent;color:var(--laiton2);border:1px solid var(--laiton);margin-left:8px}
+
+  section{padding:80px 0}
+  h2{font-family:"Bebas Neue";font-size:48px;letter-spacing:3px;color:var(--laiton2);margin-bottom:8px}
+  h2 + .trait{width:60px;height:3px;background:var(--rouge);margin-bottom:34px}
+
+  /* Le groupe */
+  #groupe{background:var(--nuit2)}
+  .groupe{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+  .groupe p{margin-bottom:14px;color:#ddd5c4}
+  .chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .chiffre{border:1px solid #33354a;border-radius:10px;padding:22px 10px;text-align:center}
+  .chiffre b{display:block;font-family:"Bebas Neue";font-size:52px;color:var(--laiton2);line-height:1}
+  .refs{font-size:14px;color:var(--gris)!important;border-top:1px solid #33354a;padding-top:14px}
+  .chiffre small{color:var(--gris);text-transform:uppercase;letter-spacing:1px;font-size:11px}
+  @media(max-width:760px){.groupe{grid-template-columns:1fr}}
+
+  /* Actualités */
+  .actus{display:grid;gap:18px}
+  .actu{display:grid;grid-template-columns:90px 1fr;gap:20px;background:var(--nuit2);border-left:4px solid var(--rouge);border-radius:8px;padding:20px}
+  .date{text-align:center;font-family:"Bebas Neue";line-height:1}
+  .date .j{font-size:44px;color:var(--laiton2)} .date .m{font-size:18px;letter-spacing:2px} .date .a{font-size:14px;color:var(--gris)}
+  .actu h3{font-family:"Playfair Display";font-size:22px;margin-bottom:4px}
+  .actu .lieu{color:var(--laiton);font-size:14px;margin-bottom:6px}
+  .actu p{color:#ddd5c4}
+  .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:#2e3040;padding:2px 8px;border-radius:4px;margin-bottom:6px}
+  .tag.avenir{background:var(--rouge);color:#fff}
+
+  /* Galerie */
+  #galerie{background:var(--nuit2)}
+  .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .video{background:#000;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid #2a2c38;transition:transform .2s}
+  .video:hover{transform:translateY(-3px)}
+  .vignette{position:relative;aspect-ratio:16/9;background:#222 center/cover}
+  .vignette::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px;border-radius:50%;
+    background:rgba(200,32,47,.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/28px no-repeat}
+  .video .titre{padding:12px 14px;font-size:15px}
+  .video.vide{cursor:default;border:2px dashed #3a3c4c;background:transparent}
+  .video.vide .vignette{background:transparent;display:flex;align-items:center;justify-content:center;color:var(--gris);font-size:14px;text-align:center;padding:20px}
+  .video.vide .vignette::after{display:none}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .lightbox.ouvert{display:flex}
+  .lightbox iframe{width:min(960px,100%);aspect-ratio:16/9;border:0;border-radius:8px}
+  .lightbox button{position:absolute;top:16px;right:20px;background:none;border:0;color:#fff;font-size:40px;cursor:pointer}
+
+  /* Contact */
+  .contact{display:grid;grid-template-columns:1fr 1.3fr;gap:40px}
+  .contact p{color:#ddd5c4;margin-bottom:12px}
+  form{display:grid;gap:14px}
+  input,textarea{width:100%;background:var(--nuit2);border:1px solid #33354a;border-radius:8px;padding:12px 14px;color:var(--creme);font:inherit}
+  input:focus,textarea:focus{outline:2px solid var(--laiton);border-color:transparent}
+  textarea{min-height:140px;resize:vertical}
+  .reseaux a{display:inline-block;margin-right:14px;text-decoration:none;border-bottom:1px solid var(--laiton)}
+  @media(max-width:760px){.contact{grid-template-columns:1fr}}
+
+  footer{border-top:1px solid #2a2c38;padding:30px 0;text-align:center;color:var(--gris);font-size:13px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="borne" href="#accueil"><span class="n">N 7</span><span class="txt">RN7 Big Band</span></a>
+    <ul>
+      <li><a href="#groupe">Le groupe</a></li>
+      <li><a href="#actualites">Actualités</a></li>
+      <li><a href="#galerie">Galerie</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="accueil">
+  <div class="rayons"></div>
+  <div class="wrap">
+    <div class="panneau">N 7</div>
+    <h1>RN7 BIG BAND</h1>
+    <p class="slogan">Un swing enfiévré, mâtiné d'accents latins et de sensualité vocale…</p>
+    <a class="btn" href="#actualites">Prochains concerts</a>
+    <a class="btn ghost" href="#galerie">Nous écouter</a>
+  </div>
+</header>
+
+<section id="groupe">
+  <div class="wrap groupe">
+    <div>
+      <h2>Le groupe</h2><div class="trait"></div>
+      <!-- ✏️ Modifiez librement ce texte de présentation -->
+      <p>Grande formation de jazz de la région lyonnaise, née à Pontcharra-sur-Turdine, le <strong>RN7 Big Band</strong> est une machine musicale bien rodée — et pourvue d'une âme. Sous la direction d'<strong>Anthony Genetet</strong>, saxophones, trompettes, trombones, section rythmique et voix y font vivre un répertoire Middle Jazz, Swing et Latin.</p>
+      <p>L'orchestre a compté dans ses rangs des musiciens aujourd'hui reconnus sur les scènes nationales et internationales (David Prez, Christophe Métra, David Sauzay, Jean-François Farge…) et invite régulièrement des musiciens de renom pour ses master-classes et ses concerts (Pierre Drevet, Patrice Foudon, Pierre Baldy-Moulinier…).</p>
+      <p class="refs"><strong>Ils nous ont accueillis :</strong> Hot Club de Lyon, Jazz Club de Bourg-en-Bresse, Crescent de Mâcon, Royal Hôtel de Noordwijk (Pays-Bas), Festival de big bands de Dijon, Festival de Feurs, Festival Jazz de Fareins, Hôtel Majestic à Cannes, Hôtel Hermitage à La Baule, saisons culturelles du Rhône…</p>
+    </div>
+    <div class="chiffres">
+      <div class="chiffre"><b>20</b><small>musiciens<br>env.</small></div>
+      <div class="chiffre"><b>3</b><small>styles :<br>middle jazz, swing, latin</small></div>
+      <div class="chiffre"><b>69</b><small>Rhône<br>région lyonnaise</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="actualites">
+  <div class="wrap">
+    <h2>Actualités</h2><div class="trait"></div>
+    <div class="actus" id="liste-actus"></div>
+  </div>
+</section>
+
+<section id="galerie">
+  <div class="wrap">
+    <h2>Galerie</h2><div class="trait"></div>
+    <div class="videos" id="liste-videos"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2>Contact</h2><div class="trait"></div>
+      <p>Un concert, un festival, un événement privé ? Écrivez-nous, nous vous répondrons rapidement.</p>
+      <p id="email-affiche"></p>
+      <p class="reseaux">
+        <a href="https://www.facebook.com/rn7bigband" target="_blank" rel="noopener">Facebook</a>
+        <a id="lien-youtube" href="#" target="_blank" rel="noopener">YouTube</a>
+      </p>
+    </div>
+    <form id="formulaire" method="POST">
+      <input name="nom" placeholder="Votre nom" required>
+      <input name="email" type="email" placeholder="Votre e-mail" required>
+      <input name="sujet" placeholder="Sujet (concert, booking, autre…)">
+      <textarea name="message" placeholder="Votre message" required></textarea>
+      <button class="btn" type="submit">Envoyer</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="annee"></span> RN7 Big Band · <a href="https://www.facebook.com/rn7bigband" target="_blank" rel="noopener">facebook.com/rn7bigband</a></div>
+</footer>
+
+<div class="lightbox" id="lightbox"><button aria-label="Fermer">×</button><iframe allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>
+
+<script>
+/* =====================================================================
+   ✏️  ZONE À MODIFIER — tout le contenu du site se gère ici
+   ===================================================================== */
+
+const CONFIG = {
+  // E-mail qui reçoit les messages
+  email: "rn7bigband@free.fr",
+
+  // Optionnel : identifiant Formspree (ex. "xyzabcd") pour recevoir le
+  // formulaire sans ouvrir la messagerie. Laisser vide = ouvre la messagerie.
+  formspree: "",
+
+  // Lien de la chaîne YouTube du groupe
+  youtube: "https://www.youtube.com/",          // ← à remplacer
+};
+
+/* ACTUALITÉS — la plus récente en premier.
+   Copiez un bloc { ... }, collez-le en haut de la liste et modifiez-le.
+   date au format "AAAA-MM-JJ". Le badge "À venir" s'affiche tout seul. */
+const ACTUALITES = [
+  {
+    date: "2026-10-07",
+    titre: "Merci Altitude 723 !",
+    lieu: "",
+    texte: "Un grand merci à l'association Altitude 723 pour son accueil et la belle organisation de notre dernier concert."
+  },
+  {
+    date: "2023-10-07",
+    titre: "En direct du Crescent",
+    lieu: "Le Crescent — Mâcon",
+    texte: "C'est avec plaisir et fierté que nous vous partageons l'enregistrement de notre concert au Crescent de Mâcon, à retrouver sur notre page Facebook."
+  },
+];
+
+/* VIDÉOS — collez simplement le lien YouTube complet et un titre. */
+const VIDEOS = [
+  { lien: "", titre: "Collez ici un lien YouTube" },
+  { lien: "", titre: "Collez ici un lien YouTube" },
+  { lien: "", titre: "Collez ici un lien YouTube" },
+];
+
+/* ===================================================================== */
+
+const MOIS = ["JAN","FÉV","MAR","AVR","MAI","JUIN","JUIL","AOÛT","SEPT","OCT","NOV","DÉC"];
+const echap = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function idYoutube(url){
+  const m = String(url).match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
+// Actualités
+const aujourdhui = new Date(); aujourdhui.setHours(0,0,0,0);
+document.getElementById("liste-actus").innerHTML = ACTUALITES.map(a => {
+  const d = new Date(a.date + "T00:00:00");
+  const avenir = d >= aujourdhui;
+  return `<article class="actu">
+    <div class="date"><div class="j">${d.getDate()}</div><div class="m">${MOIS[d.getMonth()]}</div><div class="a">${d.getFullYear()}</div></div>
+    <div>${avenir ? '<span class="tag avenir">À venir</span>' : ''}
+      <h3>${echap(a.titre)}</h3>${a.lieu ? `<div class="lieu">${echap(a.lieu)}</div>` : ''}<p>${echap(a.texte)}</p></div>
+  </article>`;
+}).join("");
+
+// Galerie
+const lb = document.getElementById("lightbox"), lbFrame = lb.querySelector("iframe");
+document.getElementById("liste-videos").innerHTML = VIDEOS.map(v => {
+  const id = idYoutube(v.lien);
+  if (!id) return `<div class="video vide"><div class="vignette">🎺 ${echap(v.titre)}</div></div>`;
+  return `<div class="video" data-id="${id}">
+    <div class="vignette" style="background-image:url(https://img.youtube.com/vi/${id}/hqdefault.jpg)"></div>
+    <div class="titre">${echap(v.titre)}</div></div>`;
+}).join("");
+document.getElementById("liste-videos").addEventListener("click", e => {
+  const v = e.target.closest(".video[data-id]"); if (!v) return;
+  lbFrame.src = `https://www.youtube-nocookie.com/embed/${v.dataset.id}?autoplay=1`;
+  lb.classList.add("ouvert");
+});
+lb.addEventListener("click", e => { if (e.target !== lbFrame){ lb.classList.remove("ouvert"); lbFrame.src = ""; } });
+
+// Contact
+document.getElementById("email-affiche").innerHTML = `✉️ <a href="mailto:${echap(CONFIG.email)}">${echap(CONFIG.email)}</a>`;
+document.getElementById("lien-youtube").href = CONFIG.youtube;
+const form = document.getElementById("formulaire");
+if (CONFIG.formspree) {
+  form.action = "https://formspree.io/f/" + CONFIG.formspree;
+} else {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const corps = `${f.get("message")}\n\n— ${f.get("nom")} (${f.get("email")})`;
+    location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(f.get("sujet") || "Contact site RN7 Big Band")}&body=${encodeURIComponent(corps)}`;
+  });
+}
+document.getElementById("annee").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
