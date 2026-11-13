@@ -136,7 +136,10 @@
   .vignette{position:relative;aspect-ratio:16/9;background:#222 center/cover}
   .vignette::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px;border-radius:50%;
     background:rgba(200,32,47,.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/28px no-repeat}
+  button.video{display:flex;flex-direction:column;justify-content:flex-start;width:100%;padding:0;font:inherit;color:inherit;text-align:left}
+  button.video .vignette{width:100%}
   .video .titre{padding:12px 14px;font-size:15px}
+  .video .infos{display:block;margin-top:3px;font-size:12px;color:var(--gris)}
   .video.vide{cursor:default;border:2px dashed #3a3c4c;background:transparent}
   .video.vide .vignette{background:transparent;display:flex;align-items:center;justify-content:center;color:var(--gris);font-size:14px;text-align:center;padding:20px}
   .video.vide .vignette::after{display:none}
@@ -277,7 +280,7 @@ const CONFIG = {
   formspree: "",
 
   // Lien de la chaîne YouTube du groupe
-  youtube: "https://www.youtube.com/",          // ← à remplacer
+  youtube: "https://www.youtube.com/@rn7bigband582",
 };
 
 /* ACTUALITÉS — uniquement les concerts du RN7 Big Band (triés automatiquement par date).
@@ -409,11 +412,21 @@ const ACTUALITES = [
     photos: 2 },
 ];
 
-/* VIDÉOS — collez simplement le lien YouTube complet et un titre. */
+/* VIDÉOS — collez le lien YouTube complet, un titre et, si vous voulez, une ligne d'infos.
+   Elles s'affichent dans l'ordre de la liste. */
 const VIDEOS = [
-  { lien: "", titre: "Collez ici un lien YouTube" },
-  { lien: "", titre: "Collez ici un lien YouTube" },
-  { lien: "", titre: "Collez ici un lien YouTube" },
+  { lien: "https://www.youtube.com/watch?v=C4tzvIn4VYw", titre: "Live au Crescent — teaser", infos: "Mâcon · 2023 · vidéo Jacek Kawarski" },
+  { lien: "https://www.youtube.com/watch?v=U5o9EAW6jXw", titre: "Lover Come Back to Me", infos: "Le Crescent, Mâcon · 2023 · vidéo Jacek Kawarski" },
+  { lien: "https://www.youtube.com/watch?v=8xopnLMiGWg", titre: "Live au Crescent (extraits)", infos: "Mâcon · 2019" },
+  { lien: "https://www.youtube.com/watch?v=pMruGgjCq6o", titre: "Feeling Good — Jazz à Vienne", infos: "Scène de Cybèle · 2015 · vidéo Les Univers de Baltus" },
+  { lien: "https://www.youtube.com/watch?v=auv2VacB3Es", titre: "Jazz à Vienne — extrait 1", infos: "Scène de Cybèle · 2015 · vidéo Les Univers de Baltus" },
+  { lien: "https://www.youtube.com/watch?v=8VS0EG9fPbQ", titre: "Jazz à Vienne — extrait 3", infos: "Scène de Cybèle · 2015 · vidéo Les Univers de Baltus" },
+  { lien: "https://www.youtube.com/watch?v=eyFMmzWArcs", titre: "Compil RN7", infos: "2015 · vidéo Camille Longin" },
+  { lien: "https://www.youtube.com/watch?v=UUo407WRVPY", titre: "Concert à Amplepuis", infos: "12 avril 2014 · vidéo Camille Longin" },
+  { lien: "https://www.youtube.com/watch?v=NkvMPGCvDtg", titre: "Not Yet Over the Hill", infos: "Hot Club de Lyon · 23 novembre 2013 · vidéo Camille Longin" },
+  { lien: "https://www.youtube.com/watch?v=srGv-R408L0", titre: "Chega de Saudade", infos: "Hot Club de Lyon · 23 novembre 2013 · vidéo Camille Longin" },
+  { lien: "https://www.youtube.com/watch?v=dZhkd6mMfG0", titre: "RN7 en fête", infos: "27 avril 2013" },
+  { lien: "https://www.youtube.com/watch?v=nXk4ZgJgRwY", titre: "Orange Colored Sky", infos: "Hot Club de Lyon · 2 mars 2013 · vidéo Camille Longin" },
 ];
 
 /* ===================================================================== */
@@ -513,16 +526,18 @@ const lb = document.getElementById("lightbox"), lbFrame = lb.querySelector("ifra
 document.getElementById("liste-videos").innerHTML = VIDEOS.map(v => {
   const id = idYoutube(v.lien);
   if (!id) return `<div class="video vide"><div class="vignette">🎺 ${echap(v.titre)}</div></div>`;
-  return `<div class="video" data-id="${id}">
+  return `<button type="button" class="video" data-id="${id}" aria-label="Lire la vidéo : ${echap(v.titre)}">
     <div class="vignette" style="background-image:url(https://img.youtube.com/vi/${id}/hqdefault.jpg)"></div>
-    <div class="titre">${echap(v.titre)}</div></div>`;
+    <div class="titre">${echap(v.titre)}${v.infos ? `<span class="infos">${echap(v.infos)}</span>` : ''}</div></button>`;
 }).join("");
 document.getElementById("liste-videos").addEventListener("click", e => {
   const v = e.target.closest(".video[data-id]"); if (!v) return;
   lbFrame.src = `https://www.youtube-nocookie.com/embed/${v.dataset.id}?autoplay=1`;
   lb.classList.add("ouvert");
 });
-lb.addEventListener("click", e => { if (e.target !== lbFrame){ lb.classList.remove("ouvert"); lbFrame.src = ""; } });
+const fermerLb = () => { lb.classList.remove("ouvert"); lbFrame.src = ""; };
+lb.addEventListener("click", e => { if (e.target !== lbFrame) fermerLb(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && lb.classList.contains("ouvert")) fermerLb(); });
 
 // Contact
 document.getElementById("email-affiche").innerHTML = `✉️ <a href="mailto:${echap(CONFIG.email)}">${echap(CONFIG.email)}</a>`;
