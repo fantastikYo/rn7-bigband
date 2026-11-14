@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="rouge">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,23 +8,15 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#0d0d0f">
-<script>try{var t=localStorage.getItem("rn7-theme");if(t==="or"||t==="rouge")document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="theme-color" content="#12131a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  /* Thème « or » : noir et or */
   :root{
     --nuit:#12131a; --nuit2:#1c1e28; --accent:#d4a64a; --accent2:#f0cf7f; --titre:#f0cf7f; --sur-accent:#12131a;
     --rouge:#c8202f; --creme:#f4ecdc; --gris:#a9a6a0; --texte2:#ddd5c4; --bord:#2e3040;
     --voile-nav:rgba(18,19,26,.92); --voile:rgba(18,19,26,.8); --lueur:#3a2a12; --rayon:rgba(212,166,74,.07); --fond-photo:#0b0c10;
-  }
-  /* Thème « rouge » : couleurs du logo d'origine (rouge, noir, blanc) */
-  :root[data-theme="rouge"]{
-    --nuit:#0d0d0f; --nuit2:#18181b; --accent:#d71920; --accent2:#ff4d55; --titre:#fff; --sur-accent:#fff;
-    --rouge:#d71920; --creme:#f5f5f5; --gris:#a3a3a8; --texte2:#d9d9dc; --bord:#2c2c31;
-    --voile-nav:rgba(13,13,15,.92); --voile:rgba(13,13,15,.8); --lueur:#4a0b10; --rayon:rgba(215,25,32,.055); --fond-photo:#000;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -42,12 +34,6 @@
   nav ul a:hover{color:var(--accent2)}
   @media(max-width:600px){nav .wrap{flex-direction:column;justify-content:center;gap:6px;height:auto;padding-top:8px;padding-bottom:8px} nav ul{gap:14px} nav ul a{font-size:11px;letter-spacing:.5px;white-space:nowrap} .borne img{height:26px}}
 
-  .theme{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border-radius:50%;border:1px solid var(--bord);background:transparent;cursor:pointer}
-  .theme span{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#d71920 50%,#d4a64a 50%)}
-  .theme:hover{border-color:var(--accent)}
-  nav ul li{display:flex;align-items:center}
-
-  :root[data-theme="rouge"] .actu .lieu,:root[data-theme="rouge"] .pp-date{color:var(--accent2)}
 
   /* Accueil */
   header.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;
@@ -60,7 +46,8 @@
   .hero p.slogan{font-family:"Playfair Display";font-style:italic;font-size:clamp(18px,3vw,26px);margin:14px 0 30px}
   .btn{display:inline-block;background:var(--accent);color:var(--sur-accent);font-weight:600;text-decoration:none;padding:12px 26px;border-radius:40px;letter-spacing:1px;text-transform:uppercase;font-size:14px;border:0;cursor:pointer}
   .btn:hover{background:var(--accent2)}
-  .btn.ghost{background:transparent;color:var(--accent2);border:1px solid var(--accent);margin-left:8px}
+  .btn.ghost{background:transparent;color:var(--accent2);border:1px solid var(--accent)}
+  .hero .btn{margin:6px 4px}
 
   section{padding:80px 0}
   h2{font-family:"Bebas Neue";font-size:48px;letter-spacing:3px;color:var(--titre);margin-bottom:8px}
@@ -92,7 +79,7 @@
   .vignette-actu{position:relative;align-self:start;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--fond-photo);aspect-ratio:4/3}
   .vignette-actu img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
   .vignette-actu:hover img{transform:scale(1.05)}
-  .vignette-actu span{position:absolute;right:6px;bottom:6px;background:var(--voile);color:var(--accent2);font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
+  .vignette-actu span{position:absolute;right:6px;bottom:6px;background:var(--accent);color:var(--sur-accent);font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.6)}
   @media(max-width:700px){
     .actu,.actu.avec-photo{grid-template-columns:64px 1fr;gap:14px;padding:16px}
     .date .j{font-size:34px}
@@ -141,6 +128,7 @@
   .pager button{font:inherit;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--accent2);border:1px solid var(--accent);border-radius:999px;padding:9px 18px}
   .pager button:hover:not(:disabled){background:var(--accent);color:var(--sur-accent)}
   .pager button:disabled{opacity:.35;cursor:default}
+  @media(max-width:600px){.pager{gap:12px;flex-wrap:nowrap} .pager .txt{display:none} .pager button{width:44px;height:44px;padding:0;font-size:24px;line-height:1;letter-spacing:0;border-radius:50%}}
   .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:1px;background:var(--bord);padding:2px 8px;border-radius:4px;margin-bottom:6px}
   .tag.avenir{background:var(--rouge);color:#fff}
 
@@ -181,13 +169,12 @@
 
 <nav>
   <div class="wrap">
-    <a class="borne" href="#accueil"><img src="assets/logo-rn7-ligne-rouge.svg" data-logo="logo-rn7-ligne" alt="RN7 Big Band" width="635" height="124"></a>
+    <a class="borne" href="#accueil"><img src="assets/logo-rn7-ligne.svg" alt="RN7 Big Band" width="635" height="124"></a>
     <ul>
       <li><a href="#groupe">Le groupe</a></li>
       <li><a href="#actualites">Actualités</a></li>
       <li><a href="#galerie">Galerie</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><button type="button" class="theme" id="bouton-theme" aria-label="Changer de thème (rouge / or)" title="Changer de thème"><span></span></button></li>
     </ul>
   </div>
 </nav>
@@ -195,26 +182,12 @@
 <header class="hero" id="accueil">
   <div class="rayons"></div>
   <div class="wrap">
-    <h1 class="logo"><img src="assets/logo-rn7-rouge.svg" data-logo="logo-rn7" alt="RN7 Big Band" width="732" height="792"></h1>
+    <h1 class="logo"><img src="assets/logo-rn7.svg" alt="RN7 Big Band" width="732" height="792"></h1>
     <p class="slogan">Un swing enfiévré, mâtiné d'accents latins et de sensualité vocale…</p>
     <a class="btn" href="#actualites">Prochains concerts</a>
     <a class="btn ghost" href="#galerie">Nous écouter</a>
   </div>
 </header>
-
-<script>
-  function appliquerTheme(t){
-    document.documentElement.dataset.theme = t;
-    document.querySelectorAll("img[data-logo]").forEach(i => i.src = "assets/" + i.dataset.logo + (t === "rouge" ? "-rouge" : "") + ".svg");
-    document.querySelector('meta[name="theme-color"]').content = t === "rouge" ? "#0d0d0f" : "#12131a";
-  }
-  appliquerTheme(document.documentElement.dataset.theme);
-  document.getElementById("bouton-theme").addEventListener("click", () => {
-    const t = document.documentElement.dataset.theme === "rouge" ? "or" : "rouge";
-    appliquerTheme(t);
-    try{ localStorage.setItem("rn7-theme", t); }catch(e){}
-  });
-</script>
 
 <section id="groupe">
   <div class="wrap groupe">
@@ -495,9 +468,9 @@ function pageActus(n, defiler){
   const debut = (n - 1) * PAR_PAGE, fin = Math.min(debut + PAR_PAGE, ACTUALITES.length);
   listeActus.innerHTML = ACTUALITES.slice(debut, fin).map(carteActu).join("");
   pagerActus.hidden = pagesActus < 2;
-  pagerActus.innerHTML = `<button type="button" data-page="${n-1}" ${n===1?'disabled':''}>‹ Plus récentes</button>
+  pagerActus.innerHTML = `<button type="button" data-page="${n-1}" ${n===1?'disabled':''} aria-label="Plus récentes">‹<span class="txt"> Plus récentes</span></button>
     <span>${debut+1}–${fin} sur ${ACTUALITES.length}</span>
-    <button type="button" data-page="${n+1}" ${n===pagesActus?'disabled':''}>Plus anciennes ›</button>`;
+    <button type="button" data-page="${n+1}" ${n===pagesActus?'disabled':''} aria-label="Plus anciennes"><span class="txt">Plus anciennes </span>›</button>`;
   if (defiler) document.getElementById("actualites").scrollIntoView({behavior:"smooth"});
 }
 pagerActus.addEventListener("click", e => { const b = e.target.closest("button[data-page]"); if (b) pageActus(+b.dataset.page, true); });
