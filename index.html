@@ -54,15 +54,15 @@
   h2 + .trait{width:60px;height:3px;background:var(--rouge);margin-bottom:34px}
 
   /* Le groupe */
-  #groupe{background:var(--nuit2)}
-  .groupe{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-  .groupe p{margin-bottom:14px;color:var(--texte2)}
-  .chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .chiffre{border:1px solid var(--bord);border-radius:10px;padding:22px 10px;text-align:center}
-  .chiffre b{display:block;font-family:"Bebas Neue";font-size:52px;color:var(--accent2);line-height:1}
+  .groupe-texte{columns:2 380px;column-gap:40px}
+  .groupe-texte p{break-inside:avoid}
+  #groupe{position:relative;padding-top:27vw;
+    background:linear-gradient(to bottom,rgba(18,19,26,0) 0,rgba(18,19,26,.15) 12vw,rgba(18,19,26,.85) 30vw,var(--nuit) 42vw) ,url("assets/groupe-2000.jpg") top center/100% auto no-repeat,var(--nuit)}
+  #groupe h2,#groupe p{text-shadow:0 2px 12px rgba(0,0,0,.9)}
+  #groupe p:not(.credit-fond){margin-bottom:14px;color:var(--texte2)}
+  .credit-fond{font-size:12px;color:var(--gris);text-align:right;margin-top:10px}
   .refs{font-size:14px;color:var(--gris)!important;border-top:1px solid var(--bord);padding-top:14px}
-  .chiffre small{color:var(--gris);text-transform:uppercase;letter-spacing:1px;font-size:11px}
-  @media(max-width:760px){.groupe{grid-template-columns:1fr}}
+  @media(max-width:760px){#groupe{padding-top:58vw;background:linear-gradient(to bottom,rgba(18,19,26,0) 0,rgba(18,19,26,0) 30vw,rgba(18,19,26,.7) 52vw,var(--nuit) 72vw),url("assets/groupe-1000.jpg") 45% 0/auto 75vw no-repeat,var(--nuit)}}
 
   /* Actualités */
   .actus{display:grid;gap:18px}
@@ -190,19 +190,15 @@
 </header>
 
 <section id="groupe">
-  <div class="wrap groupe">
-    <div>
-      <h2>Le groupe</h2><div class="trait"></div>
+  <div class="wrap">
+    <h2>Le groupe</h2><div class="trait"></div>
+    <div class="groupe-texte">
       <!-- ✏️ Modifiez librement ce texte de présentation -->
       <p>Grande formation de jazz de la région lyonnaise, née à Pontcharra-sur-Turdine, le <strong>RN7 Big Band</strong> est une machine musicale bien rodée — et pourvue d'une âme. Sous la direction d'<strong>Alexis Requet</strong>, saxophones, trompettes, trombones, section rythmique et voix y font vivre un répertoire Middle Jazz, Swing et Latin.</p>
       <p>L'orchestre a compté dans ses rangs des musiciens aujourd'hui reconnus sur les scènes nationales et internationales (David Prez, Christophe Métra, David Sauzay, Jean-François Farge…) et invite régulièrement des musiciens de renom pour ses master-classes et ses concerts (Pierre Drevet, Patrice Foudon, Pierre Baldy-Moulinier…).</p>
       <p class="refs"><strong>Ils nous ont accueillis :</strong> Hot Club de Lyon, Jazz Club de Bourg-en-Bresse, Crescent de Mâcon, Royal Hôtel de Noordwijk (Pays-Bas), Festival de big bands de Dijon, Festival de Feurs, Festival Jazz de Fareins, Hôtel Majestic à Cannes, Hôtel Hermitage à La Baule, saisons culturelles du Rhône…</p>
     </div>
-    <div class="chiffres">
-      <div class="chiffre"><b>20</b><small>musiciens<br>env.</small></div>
-      <div class="chiffre"><b>3</b><small>styles :<br>middle jazz, swing, latin</small></div>
-      <div class="chiffre"><b>69</b><small>Rhône<br>région lyonnaise</small></div>
-    </div>
+    <p class="credit-fond">Photo : Bisaccia</p>
   </div>
 </section>
 
