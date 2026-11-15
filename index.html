@@ -65,6 +65,8 @@
   @media(max-width:760px){#groupe{padding-top:58vw;background:linear-gradient(to bottom,rgba(18,19,26,0) 0,rgba(18,19,26,0) 30vw,rgba(18,19,26,.7) 52vw,var(--nuit) 72vw),url("assets/groupe-1000.jpg") 45% 0/auto 75vw no-repeat,var(--nuit)}}
 
   /* Actualités */
+  #actualites{position:relative}
+  #actualites::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1040px,calc(100% - 40px));height:1px;background:linear-gradient(90deg,transparent,var(--accent) 20%,var(--accent2) 50%,var(--accent) 80%,transparent)}
   .actus{display:grid;gap:18px}
   .actu{display:grid;grid-template-columns:90px 1fr;gap:20px;background:var(--nuit2);border-left:4px solid var(--rouge);border-radius:8px;padding:20px}
   .date{text-align:center;font-family:"Bebas Neue";line-height:1}
@@ -159,6 +161,10 @@
   input,textarea{width:100%;background:var(--nuit2);border:1px solid var(--bord);border-radius:8px;padding:12px 14px;color:var(--creme);font:inherit}
   input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
   textarea{min-height:140px;resize:vertical}
+  .piege{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .form-etat{font-size:14px;color:var(--gris);min-height:1.4em}
+  .form-etat.ok{color:#7fd18b} .form-etat.erreur{color:#ff8a8a}
+  form .btn:disabled{opacity:.6;cursor:wait}
   .reseaux a{display:inline-block;margin-right:14px;text-decoration:none;border-bottom:1px solid var(--accent)}
   @media(max-width:760px){.contact{grid-template-columns:1fr}}
 
@@ -233,7 +239,9 @@
       <input name="email" type="email" placeholder="Votre e-mail" required>
       <input name="sujet" placeholder="Sujet (concert, booking, autre…)">
       <textarea name="message" placeholder="Votre message" required></textarea>
+      <input type="checkbox" name="botcheck" class="piege" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn" type="submit">Envoyer</button>
+      <p class="form-etat" id="form-etat" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -273,11 +281,11 @@
 
 const CONFIG = {
   // E-mail qui reçoit les messages
-  email: "rn7bigband@free.fr",
+  email: "rn7bigband@gmail.com",
 
-  // Optionnel : identifiant Formspree (ex. "xyzabcd") pour recevoir le
-  // formulaire sans ouvrir la messagerie. Laisser vide = ouvre la messagerie.
-  formspree: "",
+  // Clé Web3Forms (web3forms.com, gratuit) : les messages du formulaire
+  // arrivent directement par e-mail. Laisser vide = ouvre la messagerie.
+  web3forms: "e3a8ee58-6f72-44ac-863e-bbb6cb355964",
 
   // Lien de la chaîne YouTube du groupe
   youtube: "https://www.youtube.com/@rn7bigband582",
@@ -541,17 +549,40 @@ document.addEventListener("keydown", e => { if (e.key === "Escape" && lb.classLi
 // Contact
 document.getElementById("email-affiche").innerHTML = `✉️ <a href="mailto:${echap(CONFIG.email)}">${echap(CONFIG.email)}</a>`;
 document.getElementById("lien-youtube").href = CONFIG.youtube;
-const form = document.getElementById("formulaire");
-if (CONFIG.formspree) {
-  form.action = "https://formspree.io/f/" + CONFIG.formspree;
-} else {
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const f = new FormData(form);
-    const corps = `${f.get("message")}\n\n— ${f.get("nom")} (${f.get("email")})`;
-    location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(f.get("sujet") || "Contact site RN7 Big Band")}&body=${encodeURIComponent(corps)}`;
-  });
+const form = document.getElementById("formulaire"), etat = document.getElementById("form-etat");
+function ouvrirMessagerie(f) {
+  const corps = `${f.get("message")}\n\n— ${f.get("nom")} (${f.get("email")})`;
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(f.get("sujet") || "Contact site RN7 Big Band")}&body=${encodeURIComponent(corps)}`;
 }
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = new FormData(form);
+  if (!CONFIG.web3forms) return ouvrirMessagerie(f);
+  if (f.get("botcheck")) return;
+  const bouton = form.querySelector("button[type=submit]");
+  bouton.disabled = true; etat.className = "form-etat"; etat.textContent = "Envoi en cours…";
+  try {
+    const r = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: CONFIG.web3forms,
+        subject: "Site RN7 Big Band : " + (f.get("sujet") || "nouveau message"),
+        from_name: "Site RN7 Big Band",
+        name: f.get("nom"), email: f.get("email"), sujet: f.get("sujet"), message: f.get("message"),
+      }),
+    });
+    const res = await r.json();
+    if (!r.ok || !res.success) throw new Error(res.message || r.status);
+    form.reset();
+    etat.className = "form-etat ok"; etat.textContent = "Merci, votre message est bien parti ! Nous vous répondrons rapidement.";
+  } catch (err) {
+    etat.className = "form-etat erreur";
+    etat.innerHTML = `L'envoi a échoué. Écrivez-nous directement à <a href="mailto:${echap(CONFIG.email)}">${echap(CONFIG.email)}</a>.`;
+  } finally {
+    bouton.disabled = false;
+  }
+});
 document.getElementById("annee").textContent = new Date().getFullYear();
 </script>
 </body>
