@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace musiciens — RN7 Big Band</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#12131a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--nuit:#12131a;--nuit2:#1c1e28;--accent:#d4a64a;--accent2:#f0cf7f;--rouge:#c8202f;--creme:#f4ecdc;--gris:#a9a6a0;--texte2:#ddd5c4;--bord:#2e3040}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:40px 16px;
+    font-family:Inter,system-ui,sans-serif;line-height:1.6;color:var(--creme);
+    background:radial-gradient(ellipse at 50% 120%,#3a2a12 0%,var(--nuit) 60%) fixed,var(--nuit)}
+  a.logo img{display:block;height:44px;width:auto}
+  .carte{width:min(760px,100%);background:var(--nuit2);border:1px solid var(--bord);border-top:4px solid var(--accent);border-radius:12px;padding:32px 28px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  h1{font-family:"Bebas Neue";font-weight:400;font-size:42px;letter-spacing:3px;color:var(--accent2);line-height:1.1}
+  .trait{width:60px;height:3px;background:var(--rouge);margin:8px 0 22px}
+  p{color:var(--texte2);margin-bottom:14px}
+  label{display:block;font-size:14px;color:var(--gris);margin-bottom:6px}
+  input{width:100%;background:var(--nuit);border:1px solid var(--bord);border-radius:8px;padding:12px 14px;color:var(--creme);font:inherit;margin-bottom:14px}
+  input:focus{outline:2px solid var(--accent);border-color:transparent}
+  .btn{display:inline-block;background:var(--accent);color:var(--nuit);font-weight:600;text-decoration:none;padding:12px 26px;border-radius:40px;letter-spacing:1px;text-transform:uppercase;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--accent2)} .btn:disabled{opacity:.6;cursor:wait}
+  .actions{margin:24px 0 18px}
+  .note{font-size:13px;color:var(--gris)}
+  .erreur{color:#ff8a8a;font-size:14px;min-height:1.4em;margin:12px 0 0}
+  .carte h2{font-family:"Bebas Neue";font-weight:400;letter-spacing:2px;color:var(--accent2);font-size:26px;margin:26px 0 10px}
+  .note a{color:var(--accent2)}
+  .docs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+  .doc{font:inherit;font-size:14px;cursor:pointer;background:transparent;color:var(--accent2);border:1px solid var(--accent);border-radius:999px;padding:8px 16px}
+  .doc:hover{background:var(--accent);color:var(--nuit)}
+  .pistes{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:18px 0 22px}
+  .piste{display:flex;align-items:center;gap:14px;background:var(--nuit);border:1px solid var(--bord);border-left:3px solid var(--rouge);border-radius:10px;padding:12px 14px}
+  .piste.en-cours{border-color:var(--accent);border-left-color:var(--accent)}
+  .lire{flex:0 0 46px;height:46px;border-radius:50%;border:0;cursor:pointer;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2312131a' d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/24px no-repeat}
+  .lire:hover{background-color:var(--accent2)}
+  .en-cours.joue .lire{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2312131a' d='M6 5h4v14H6zM14 5h4v14h-4z'/%3E%3C/svg%3E")}
+  .en-cours.charge .lire{animation:pulse 1s infinite alternate}
+  @keyframes pulse{to{opacity:.5}}
+  .piste-infos{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px}
+  .piste-titre{grid-column:1/-1;font-weight:600;font-size:15px;line-height:1.3}
+  .piste-barre{width:100%;margin:0;padding:0;border:0;background:transparent;accent-color:var(--accent);height:18px;cursor:pointer}
+  .piste-temps{font-size:12px;color:var(--gris);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .apercu{border:0;padding:0;width:min(900px,calc(100% - 24px));height:calc(100dvh - 48px);background:var(--nuit2);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden}
+  .apercu::backdrop{background:rgba(5,6,10,.85)}
+  .apercu iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .apercu button{position:absolute;top:8px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.85);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
+  .retour{font-size:13px;color:var(--gris)} .retour a{color:var(--accent2)}
+</style>
+</head>
+<body>
+<a class="logo" href="./"><img src="assets/logo-rn7-ligne.svg" alt="RN7 Big Band" width="635" height="124"></a>
+<main class="carte" id="carte">
+  <h1>Espace musiciens</h1>
+  <div class="trait"></div>
+  <p>Cet espace est réservé aux musiciens du RN7 Big Band.</p>
+  <form id="acces">
+    <label for="mdp">Mot de passe</label>
+    <input id="mdp" type="password" autocomplete="current-password" required autofocus>
+    <button class="btn" type="submit">Entrer</button>
+    <p class="erreur" id="erreur" role="alert"></p>
+  </form>
+</main>
+<p class="retour"><a href="./">← Retour au site</a></p>
+<dialog class="apercu" id="apercu"><iframe title="Aperçu du document" allow="autoplay"></iframe><button type="button" aria-label="Fermer">×</button></dialog>
+<script>
+const SEL = "tCervhmvaVrXnykKX6Q/wQ==", IV = "0dNVVInD9sqvfPpF", DONNEES = "7J51ahjIblQZQ7tPqOWx+XDxiMgf46GFFDzbRPZZSffPXaubXK1TMe6CVAHqCz9uiol/AeqqeHB8UJh1jFmqQOfhglFgMQJ6NUZ5lFLhrw6jLw0zWrdnlsGEEI4B5XFTammiM+Py6OR9Cbu+faCFwbsXo+K/XqE64XGgXhAvzVQfLpq2jbt59wou1+S0NUPXUxTqgkPRgv8aDITAroVuBvuhuiG6Cxlp6w4eFPcD8qcRiaPSHQFlZn2OAx84CLCtf6iuRYImya8b/tCafE8T56htLJNlCkgceg1rHhqPEAM8TQ8lTJPEK2Xd4W7qh9OWVCS6TApmzFWqfC2eKBghILey/oZmlYK0usLy12dOmBfTkyMJhqL6Oa7EsoKJSpjQ16uDA7rWAV4HEpqiIfOh0myKCHSgTTENhQflgm+sMgGThGtnhrjmcaOyk6HVZ3ys9hUUMIz+oVFdiVsFUl31PM8puFLeUJaMoDfdMwhSCbywy395m9EBw7LE3MCUjEbqR1F6d1R9OTKNAjUMiRj7lwy3J1HMB8fFm5RBkxjp6jTjVGUXGV+fGVZC31ZVvTbZ8XnsfSb1YomE6qGw3xN4gE4MWvarMvP/dkrNNg7UGOkQbzGrfC/tl68XLOrD29RpWYxdLEny5M+IJ/k5t/bi76+l8UCFFfJCDU7nD6x0blLF8n67qQ0ZnoFNpZgWwatJxMRhAw7oqFeJWRgQPAKtxujLzANeqJWajHh7Wks4vo02+N6Lt4BXmwIQYBAKOR/2i0WCyQCiFz6aP2vq7xREVh6yPg1kNtMs2TnX4ug6NoY=", ITER = 600000;
+const octets = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
+async function dechiffrer(mdp) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(mdp), "PBKDF2", false, ["deriveKey"]);
+  const cle = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: octets(SEL), iterations: ITER, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const clair = await crypto.subtle.decrypt({ name: "AES-GCM", iv: octets(IV) }, cle, octets(DONNEES));
+  return new TextDecoder().decode(clair);
+}
+function afficher(html) { document.getElementById("carte").innerHTML = html; }
+// Mot de passe retenu pendant la session de navigation (onglet), pour ne pas le redemander
+(async () => {
+  let m; try { m = sessionStorage.getItem("rn7-espace"); } catch (e) {}
+  if (m) { try { afficher(await dechiffrer(m)); } catch (e) {} }
+})();
+document.getElementById("acces").addEventListener("submit", async e => {
+  e.preventDefault();
+  const champ = document.getElementById("mdp"), bouton = e.target.querySelector("button"), err = document.getElementById("erreur");
+  bouton.disabled = true; err.textContent = "";
+  try {
+    afficher(await dechiffrer(champ.value));
+    try { sessionStorage.setItem("rn7-espace", champ.value); } catch (e) {}
+  } catch (x) {
+    err.textContent = "Mot de passe incorrect.";
+    champ.select();
+  } finally { bouton.disabled = false; }
+});
+
+// Fichiers du dossier Google Drive, chargés en direct (API Drive, clé restreinte au site)
+const echap = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+let CLE = "";
+async function lister(dossier) {
+  const q = encodeURIComponent(`'${dossier}' in parents and trashed = false`);
+  const r = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,mimeType)&orderBy=name_natural&pageSize=1000&key=${CLE}`);
+  if (!r.ok) throw new Error(r.status);
+  return (await r.json()).files;
+}
+async function blocs(dossier, niveau) {
+  const fichiers = await lister(dossier);
+  const pistes = [], docs = [], sous = [];
+  for (const f of fichiers) {
+    if (f.mimeType === "application/vnd.google-apps.folder") sous.push(f);
+    else if (f.mimeType.startsWith("audio/")) {
+      const nom = echap(f.name.replace(/\.\w+$/, "").trim());
+      pistes.push(`<div class="piste" data-id="${echap(f.id)}"><button type="button" class="lire" aria-label="Lire ${nom}"></button>
+        <div class="piste-infos"><span class="piste-titre">${nom}</span>
+        <input type="range" class="piste-barre" min="0" max="100" step="0.1" value="0" aria-label="Position dans ${nom}">
+        <span class="piste-temps">0:00</span></div></div>`);
+    } else docs.push(`<button type="button" class="doc" data-apercu="https://drive.google.com/file/d/${echap(f.id)}/preview">📄 ${echap(f.name)}</button>`);
+  }
+  let html = (docs.length ? `<div class="docs">${docs.join("")}</div>` : "") + (pistes.length ? `<div class="pistes">${pistes.join("")}</div>` : "");
+  for (const d of sous) html += `<h${niveau}>${echap(d.name)}</h${niveau}>` + await blocs(d.id, Math.min(niveau + 1, 4));
+  return html;
+}
+async function chargerFichiers() {
+  const zone = document.getElementById("fichiers");
+  if (!zone) return;
+  CLE = zone.dataset.cle;
+  try { zone.innerHTML = await blocs(zone.dataset.dossier, 2) || '<p class="note">Le dossier est vide.</p>'; }
+  catch (e) { zone.innerHTML = '<p class="note">Impossible de charger la liste des fichiers. Utilisez le lien vers le dossier ci-dessous.</p>'; }
+}
+new MutationObserver(() => { const z = document.getElementById("fichiers"); if (z && !z.dataset.charge) { z.dataset.charge = 1; chargerFichiers(); } })
+  .observe(document.getElementById("carte"), { childList: true });
+
+// Lecteur : un seul morceau à la fois, flux direct depuis Google Drive
+const audio = new Audio(); audio.preload = "none";
+let piste = null;
+const temps = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}` : "0:00";
+function majPiste() {
+  if (!piste) return;
+  piste.classList.toggle("joue", !audio.paused);
+  piste.classList.toggle("charge", !audio.paused && audio.readyState < 3);
+  const barre = piste.querySelector(".piste-barre");
+  if (audio.duration && !barre.matches(":active")) barre.value = audio.currentTime / audio.duration * 100;
+  piste.querySelector(".piste-temps").textContent = audio.duration ? `${temps(audio.currentTime)} / ${temps(audio.duration)}` : (audio.paused ? "0:00" : "Chargement…");
+}
+["play", "pause", "timeupdate", "loadedmetadata", "waiting", "playing", "canplay", "ended"].forEach(t => audio.addEventListener(t, majPiste));
+audio.addEventListener("error", () => { if (piste) { piste.classList.remove("joue", "charge"); piste.querySelector(".piste-temps").textContent = "Lecture impossible"; } });
+function choisir(p) {
+  if (piste === p) return;
+  if (piste) { piste.classList.remove("en-cours", "joue", "charge"); piste.querySelector(".piste-barre").value = 0; piste.querySelector(".piste-temps").textContent = "0:00"; }
+  piste = p; piste.classList.add("en-cours");
+  audio.src = `https://www.googleapis.com/drive/v3/files/${p.dataset.id}?alt=media&key=${CLE}`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".lire");
+  if (b) { const p = b.closest(".piste"); if (piste !== p) { choisir(p); audio.play(); } else audio.paused ? audio.play() : audio.pause(); return; }
+  const d = e.target.closest(".doc");
+  if (d) { const dlg = document.getElementById("apercu"); dlg.querySelector("iframe").src = d.dataset.apercu; dlg.showModal(); }
+});
+document.addEventListener("change", e => {
+  if (!e.target.matches(".piste-barre")) return;
+  const p = e.target.closest(".piste"), v = e.target.value / 100;
+  if (piste !== p) { choisir(p); audio.addEventListener("loadedmetadata", () => { audio.currentTime = v * audio.duration; }, { once: true }); audio.play(); return; }
+  if (audio.duration) audio.currentTime = v * audio.duration;
+});
+const apercu = document.getElementById("apercu");
+apercu.querySelector("button").addEventListener("click", () => apercu.close());
+apercu.addEventListener("click", e => { if (e.target === apercu) apercu.close(); });
+apercu.addEventListener("close", () => { apercu.querySelector("iframe").src = "about:blank"; });
+</script>
+</body>
+</html>

@@ -26,3 +26,17 @@ Sur GitHub : ouvrez `index.html`, cliquez sur le crayon ✏️, modifiez, puis *
 ## 4. Formulaire de contact
 Le formulaire passe par **Web3Forms** (gratuit, 250 messages/mois) : les messages arrivent directement sur l'e-mail associé à la clé `web3forms` de `CONFIG`.
 Pour changer d'adresse de réception, créez une nouvelle clé sur https://web3forms.com et remplacez-la dans `CONFIG`. Clé vide = le bouton ouvre la messagerie du visiteur.
+
+## 5. Espace musiciens (page protégée par mot de passe)
+`espace-musiciens.html` est chiffrée : son contenu ne s'affiche qu'avec le mot de passe, et ne peut pas être lu dans le code source.
+Elle affiche en direct les fichiers du dossier Google Drive partagé : chaque MP3 devient une vignette qui s'écoute sur place, les autres fichiers (PDF…) s'ouvrent en aperçu. Les sous-dossiers deviennent des rubriques.
+**Ajouter un fichier dans le Drive suffit** : il apparaît tout seul sur la page.
+
+La lecture passe par une clé d'API Google Drive (Google Cloud Console, projet « RN7 site »), restreinte à l'API Drive et aux adresses du site (rn7bigband.org, www.rn7bigband.org, fantastikyo.github.io). Si le site change d'adresse, ajoutez-la dans les restrictions de la clé.
+
+Pour changer le texte, le dossier, la clé ou le mot de passe (sur un ordinateur avec Python et le module `cryptography`) :
+1. modifiez `outils/espace-musiciens.contenu.html` (fichier en clair, **non publié** : il est exclu par `.gitignore`) ;
+2. lancez `python3 outils/chiffrer-espace.py` et saisissez le mot de passe ;
+3. commitez le nouveau `espace-musiciens.html`.
+
+Le mot de passe n'est enregistré nulle part : notez-le de votre côté.
