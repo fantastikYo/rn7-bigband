@@ -48,10 +48,14 @@
   .piste-titre{grid-column:1/-1;font-weight:600;font-size:15px;line-height:1.3}
   .piste-barre{width:100%;margin:0;padding:0;border:0;background:transparent;accent-color:var(--accent);height:18px;cursor:pointer}
   .piste-temps{font-size:12px;color:var(--gris);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .apercu{border:0;padding:0;width:min(900px,calc(100% - 24px));height:calc(100dvh - 48px);background:var(--nuit2);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden}
+  .apercu{border:0;padding:0;margin:auto;width:min(900px,calc(100% - 24px));height:calc(100dvh - 48px);background:var(--nuit2);color:var(--creme);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden}
+  .apercu[open]{display:flex;flex-direction:column}
+  .apercu-barre{display:flex;align-items:center;gap:12px;padding:8px 10px 8px 16px;border-bottom:1px solid var(--bord)}
+  .apercu-titre{flex:1;min-width:0;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .apercu-grand{font-size:13px;color:var(--accent2);white-space:nowrap}
   .apercu::backdrop{background:rgba(5,6,10,.85)}
-  .apercu iframe{width:100%;height:100%;border:0;display:block;background:#fff}
-  .apercu button{position:absolute;top:8px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.85);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
+  .apercu iframe{flex:1;width:100%;min-height:0;border:0;display:block;background:#fff}
+  .apercu-fermer{flex:0 0 40px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.85);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
   .retour{font-size:13px;color:var(--gris)} .retour a{color:var(--accent2)}
 </style>
 </head>
@@ -69,9 +73,9 @@
   </form>
 </main>
 <p class="retour"><a href="./">← Retour au site</a></p>
-<dialog class="apercu" id="apercu"><iframe title="Aperçu du document" allow="autoplay"></iframe><button type="button" aria-label="Fermer">×</button></dialog>
+<dialog class="apercu" id="apercu"><div class="apercu-barre"><span class="apercu-titre"></span><a class="apercu-grand" target="_blank" rel="noopener">Ouvrir en grand ↗</a><button type="button" class="apercu-fermer" aria-label="Fermer">×</button></div><iframe title="Aperçu du document" allow="autoplay"></iframe></dialog>
 <script>
-const SEL = "tCervhmvaVrXnykKX6Q/wQ==", IV = "0dNVVInD9sqvfPpF", DONNEES = "7J51ahjIblQZQ7tPqOWx+XDxiMgf46GFFDzbRPZZSffPXaubXK1TMe6CVAHqCz9uiol/AeqqeHB8UJh1jFmqQOfhglFgMQJ6NUZ5lFLhrw6jLw0zWrdnlsGEEI4B5XFTammiM+Py6OR9Cbu+faCFwbsXo+K/XqE64XGgXhAvzVQfLpq2jbt59wou1+S0NUPXUxTqgkPRgv8aDITAroVuBvuhuiG6Cxlp6w4eFPcD8qcRiaPSHQFlZn2OAx84CLCtf6iuRYImya8b/tCafE8T56htLJNlCkgceg1rHhqPEAM8TQ8lTJPEK2Xd4W7qh9OWVCS6TApmzFWqfC2eKBghILey/oZmlYK0usLy12dOmBfTkyMJhqL6Oa7EsoKJSpjQ16uDA7rWAV4HEpqiIfOh0myKCHSgTTENhQflgm+sMgGThGtnhrjmcaOyk6HVZ3ys9hUUMIz+oVFdiVsFUl31PM8puFLeUJaMoDfdMwhSCbywy395m9EBw7LE3MCUjEbqR1F6d1R9OTKNAjUMiRj7lwy3J1HMB8fFm5RBkxjp6jTjVGUXGV+fGVZC31ZVvTbZ8XnsfSb1YomE6qGw3xN4gE4MWvarMvP/dkrNNg7UGOkQbzGrfC/tl68XLOrD29RpWYxdLEny5M+IJ/k5t/bi76+l8UCFFfJCDU7nD6x0blLF8n67qQ0ZnoFNpZgWwatJxMRhAw7oqFeJWRgQPAKtxujLzANeqJWajHh7Wks4vo02+N6Lt4BXmwIQYBAKOR/2i0WCyQCiFz6aP2vq7xREVh6yPg1kNtMs2TnX4ug6NoY=", ITER = 600000;
+const SEL = "81d3VE955BsoAzqE1or5tw==", IV = "EEr4mr83QSmVhBPJ", DONNEES = "nW8L/GNxR0ZJkIjZRoMpGRR2kB6SwdX4cBSqdGb5irwyz4ROpaSaPXdfkN7ep0/zt6HJjji7kjELY0w9GhuMimJAgTCgTaL+ghrXNHXxoAPsga+MtquVc66dEKACzEyfvpb95oK9TmB1O3Jk9ypSBh6ZI0SWHhzJWPsXzODgLW47r+LBOBXqMTXoJR/NoVLAbv5OXoaA1Wj2OJd9AlWDcvKJIKahmcABYpxYRHCRpiyKbluGmnv4YO6Fu9xWXWEWY013h1kTdSlEpgoJhLj1dP4Wyppu6dy1c9VVIdz71ZnEJQ2eiFT9gSrcy1o99zjkHOdHE+y2UzoO8tIy26DRdspm1ad99sguHfQCeXx+E6ATwJlQMxDVnFtiOe+XAkV44xHB2WegDFeQJyDF3kTZZ7KdYIXlWkYXTU5mvLS6WuY1tJdp2Ur0H3gS0c2tUZPj3P3HM0xFyLusua8gILEAL+IhUidW7AkmjxShHZe+PMUb4TGCyE6AqsjfPlQR/FYUFUfa0+RfmTQ/CAOWrnXhx9bcEIxIerRMEkGPUKWvSyZTE7mc/H3GhOh8yathx4I9WbJToFIM69w20wJsINIp8MSfbQ8kiG0vWvuse2Hz+2s/r8Z4k1O1kQ6tywPOiGub0+zM4f09S1w8L7DmPgEervTyU8pf4G9SunI15HobpZfwZ6RuYJssKvVxWcYzvfZrNfmbpvP9lf3+XLeoNxitNV3lcHVnmS2gbynWuYTwUO1s9baHKAGEX9/bttlAMDnqWPRHr081znPNVXOwtQgNHN5VFNhrhgOiZZHtqhFHAEA=", ITER = 600000;
 const octets = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
 async function dechiffrer(mdp) {
   const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(mdp), "PBKDF2", false, ["deriveKey"]);
@@ -159,7 +163,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest(".lire");
   if (b) { const p = b.closest(".piste"); if (piste !== p) { choisir(p); audio.play(); } else audio.paused ? audio.play() : audio.pause(); return; }
   const d = e.target.closest(".doc");
-  if (d) { const dlg = document.getElementById("apercu"); dlg.querySelector("iframe").src = d.dataset.apercu; dlg.showModal(); }
+  if (d) { const dlg = document.getElementById("apercu"); dlg.querySelector("iframe").src = d.dataset.apercu; dlg.querySelector(".apercu-titre").textContent = d.textContent.replace(/^📄\s*/, ""); dlg.querySelector(".apercu-grand").href = d.dataset.apercu.replace(/\/preview$/, "/view"); dlg.showModal(); }
 });
 document.addEventListener("change", e => {
   if (!e.target.matches(".piste-barre")) return;
@@ -168,7 +172,7 @@ document.addEventListener("change", e => {
   if (audio.duration) audio.currentTime = v * audio.duration;
 });
 const apercu = document.getElementById("apercu");
-apercu.querySelector("button").addEventListener("click", () => apercu.close());
+apercu.querySelector(".apercu-fermer").addEventListener("click", () => apercu.close());
 apercu.addEventListener("click", e => { if (e.target === apercu) apercu.close(); });
 apercu.addEventListener("close", () => { apercu.querySelector("iframe").src = "about:blank"; });
 </script>

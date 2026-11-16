@@ -40,3 +40,8 @@ Pour changer le texte, le dossier, la clé ou le mot de passe (sur un ordinateur
 3. commitez le nouveau `espace-musiciens.html`.
 
 Le mot de passe n'est enregistré nulle part : notez-le de votre côté.
+
+## 6. Référencement
+- Titre, description, adresse canonique, balises de partage (Open Graph, image `assets/partage.jpg`) et données structurées (`MusicGroup`) sont dans l'en-tête de `index.html`.
+- Les concerts **à venir** de `ACTUALITES` sont déclarés automatiquement à Google comme événements (`MusicEvent`) : renseignez bien `lieu` sous la forme « Salle — Ville ».
+- `robots.txt` et `sitemap.xml` sont à la racine. Inscrivez le site dans Google Search Console (https://search.google.com/search-console) et soumettez `https://rn7bigband.org/sitemap.xml`.

@@ -3,8 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RN7 Big Band — Swing, swing et encore du swing</title>
-<meta name="description" content="RN7 Big Band, grande formation de jazz de la région lyonnaise dirigée par Alexis Requet : middle jazz, swing et latin. Actualités, vidéos et contact.">
+<title>RN7 Big Band — Big band de jazz de la région lyonnaise</title>
+<meta name="description" content="RN7 Big Band, big band de jazz de la région lyonnaise (Pontcharra-sur-Turdine, Rhône) dirigé par Alexis Requet : swing, middle jazz et latin. Concerts, vidéos, contact.">
+<link rel="canonical" href="https://rn7bigband.org/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="RN7 Big Band">
+<meta property="og:url" content="https://rn7bigband.org/">
+<meta property="og:title" content="RN7 Big Band — Big band de jazz de la région lyonnaise">
+<meta property="og:description" content="Swing, middle jazz et latin sous la direction d'Alexis Requet. Concerts, vidéos et contact.">
+<meta property="og:image" content="https://rn7bigband.org/assets/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Le RN7 Big Band sur scène">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "MusicGroup",
+   "@id": "https://rn7bigband.org/#groupe",
+   "name": "RN7 Big Band",
+   "url": "https://rn7bigband.org/",
+   "logo": "https://rn7bigband.org/assets/apple-touch-icon.png",
+   "image": "https://rn7bigband.org/assets/partage.jpg",
+   "description": "Big band de jazz de la région lyonnaise, né à Pontcharra-sur-Turdine : swing, middle jazz et latin.",
+   "genre": [
+    "Jazz",
+    "Swing",
+    "Big band",
+    "Latin jazz"
+   ],
+   "email": "rn7bigband@gmail.com",
+   "foundingLocation": {
+    "@type": "Place",
+    "name": "Pontcharra-sur-Turdine",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Pontcharra-sur-Turdine",
+     "addressRegion": "Auvergne-Rhône-Alpes",
+     "addressCountry": "FR"
+    }
+   },
+   "member": {
+    "@type": "OrganizationRole",
+    "roleName": "Direction musicale",
+    "member": {
+     "@type": "Person",
+     "name": "Alexis Requet"
+    }
+   },
+   "sameAs": [
+    "https://www.facebook.com/rn7bigband",
+    "https://www.youtube.com/@rn7bigband582"
+   ]
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://rn7bigband.org/#site",
+   "url": "https://rn7bigband.org/",
+   "name": "RN7 Big Band",
+   "inLanguage": "fr-FR",
+   "publisher": {
+    "@id": "https://rn7bigband.org/#groupe"
+   }
+  }
+ ]
+}
+</script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -34,6 +101,8 @@
   nav ul a:hover{color:var(--accent2)}
   @media(max-width:600px){nav .wrap{flex-direction:column;justify-content:center;gap:6px;height:auto;padding-top:8px;padding-bottom:8px} nav ul{gap:14px} nav ul a{font-size:11px;letter-spacing:.5px;white-space:nowrap} .borne img{height:26px}}
 
+
+  .visuellement-cache{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
   /* Accueil */
   header.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;
@@ -188,7 +257,7 @@
 <header class="hero" id="accueil">
   <div class="rayons"></div>
   <div class="wrap">
-    <h1 class="logo"><img src="assets/logo-rn7.svg" alt="RN7 Big Band" width="732" height="792"></h1>
+    <h1 class="logo"><img src="assets/logo-rn7.svg" alt="RN7 Big Band" width="732" height="792"><span class="visuellement-cache"> — big band de jazz de la région lyonnaise</span></h1>
     <p class="slogan">Un swing enfiévré, mâtiné d'accents latins et de sensualité vocale…</p>
     <a class="btn" href="#actualites">Prochains concerts</a>
     <a class="btn ghost" href="#galerie">Nous écouter</a>
@@ -449,6 +518,27 @@ function idYoutube(url){
 // Actualités
 const aujourdhui = new Date(); aujourdhui.setHours(0,0,0,0);
 ACTUALITES.sort((a, b) => b.date.localeCompare(a.date));
+
+// Données structurées des concerts à venir (résultats « événements » de Google)
+(() => {
+  const avenir = ACTUALITES.filter(a => new Date(a.date + "T00:00") >= aujourdhui);
+  if (!avenir.length) return;
+  const evenements = avenir.map(a => {
+    const [salle, ville] = a.lieu.includes(" — ") ? a.lieu.split(" — ") : [a.lieu, a.lieu];
+    return {
+      "@type": "MusicEvent", name: a.titre, startDate: a.date, description: a.texte,
+      eventStatus: "https://schema.org/EventScheduled", eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: { "@type": "Place", name: salle, address: { "@type": "PostalAddress", addressLocality: ville.replace(/\s*\(.*\)$/, ""), addressCountry: "FR" } },
+      performer: { "@id": "https://rn7bigband.org/#groupe" }, organizer: { "@id": "https://rn7bigband.org/#groupe" },
+      image: a.photos ? [new URL(`assets/actus/${a.date}/1.jpg`, "https://rn7bigband.org/").href] : ["https://rn7bigband.org/assets/partage.jpg"],
+      url: "https://rn7bigband.org/#actualites",
+    };
+  });
+  const sd = document.createElement("script"); sd.type = "application/ld+json";
+  sd.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": evenements });
+  document.head.appendChild(sd);
+})();
+
 const PAR_PAGE = 10;
 const listeActus = document.getElementById("liste-actus"), pagerActus = document.getElementById("pager-actus");
 const pagesActus = Math.max(1, Math.ceil(ACTUALITES.length / PAR_PAGE));
@@ -464,7 +554,7 @@ function carteActu(a){
       <h3>${echap(a.titre)}</h3>${a.lieu ? `<div class="lieu">${echap(a.lieu)}</div>` : ''}<p>${echap(a.texte)}</p>
       ${plus ? `<button type="button" class="voir-plus" data-actu="${i}">Voir plus${ph.length > 1 ? ` · ${ph.length} photos` : ''}</button>` : ''}</div>
     ${ph.length ? `<button type="button" class="vignette-actu" data-actu="${i}" aria-label="Voir les photos : ${echap(a.titre)}">
-      <img src="${ph[0]}" alt="" loading="lazy">${ph.length > 1 ? `<span>+${ph.length - 1}</span>` : ''}</button>` : ''}
+      <img src="${ph[0]}" alt="${echap(a.titre)}" loading="lazy">${ph.length > 1 ? `<span>+${ph.length - 1}</span>` : ''}</button>` : ''}
   </article>`;
 }
 function pageActus(n, defiler){

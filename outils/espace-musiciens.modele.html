@@ -48,10 +48,14 @@
   .piste-titre{grid-column:1/-1;font-weight:600;font-size:15px;line-height:1.3}
   .piste-barre{width:100%;margin:0;padding:0;border:0;background:transparent;accent-color:var(--accent);height:18px;cursor:pointer}
   .piste-temps{font-size:12px;color:var(--gris);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .apercu{border:0;padding:0;width:min(900px,calc(100% - 24px));height:calc(100dvh - 48px);background:var(--nuit2);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden}
+  .apercu{border:0;padding:0;margin:auto;width:min(900px,calc(100% - 24px));height:calc(100dvh - 48px);background:var(--nuit2);color:var(--creme);border-radius:12px;border-top:4px solid var(--accent);overflow:hidden}
+  .apercu[open]{display:flex;flex-direction:column}
+  .apercu-barre{display:flex;align-items:center;gap:12px;padding:8px 10px 8px 16px;border-bottom:1px solid var(--bord)}
+  .apercu-titre{flex:1;min-width:0;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .apercu-grand{font-size:13px;color:var(--accent2);white-space:nowrap}
   .apercu::backdrop{background:rgba(5,6,10,.85)}
-  .apercu iframe{width:100%;height:100%;border:0;display:block;background:#fff}
-  .apercu button{position:absolute;top:8px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.85);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
+  .apercu iframe{flex:1;width:100%;min-height:0;border:0;display:block;background:#fff}
+  .apercu-fermer{flex:0 0 40px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(18,19,26,.85);color:var(--creme);font-size:28px;line-height:1;cursor:pointer}
   .retour{font-size:13px;color:var(--gris)} .retour a{color:var(--accent2)}
 </style>
 </head>
@@ -69,7 +73,7 @@
   </form>
 </main>
 <p class="retour"><a href="./">← Retour au site</a></p>
-<dialog class="apercu" id="apercu"><iframe title="Aperçu du document" allow="autoplay"></iframe><button type="button" aria-label="Fermer">×</button></dialog>
+<dialog class="apercu" id="apercu"><div class="apercu-barre"><span class="apercu-titre"></span><a class="apercu-grand" target="_blank" rel="noopener">Ouvrir en grand ↗</a><button type="button" class="apercu-fermer" aria-label="Fermer">×</button></div><iframe title="Aperçu du document" allow="autoplay"></iframe></dialog>
 <script>
 const SEL = "{{SEL}}", IV = "{{IV}}", DONNEES = "{{DONNEES}}", ITER = {{ITER}};
 const octets = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
@@ -159,7 +163,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest(".lire");
   if (b) { const p = b.closest(".piste"); if (piste !== p) { choisir(p); audio.play(); } else audio.paused ? audio.play() : audio.pause(); return; }
   const d = e.target.closest(".doc");
-  if (d) { const dlg = document.getElementById("apercu"); dlg.querySelector("iframe").src = d.dataset.apercu; dlg.showModal(); }
+  if (d) { const dlg = document.getElementById("apercu"); dlg.querySelector("iframe").src = d.dataset.apercu; dlg.querySelector(".apercu-titre").textContent = d.textContent.replace(/^📄\s*/, ""); dlg.querySelector(".apercu-grand").href = d.dataset.apercu.replace(/\/preview$/, "/view"); dlg.showModal(); }
 });
 document.addEventListener("change", e => {
   if (!e.target.matches(".piste-barre")) return;
@@ -168,7 +172,7 @@ document.addEventListener("change", e => {
   if (audio.duration) audio.currentTime = v * audio.duration;
 });
 const apercu = document.getElementById("apercu");
-apercu.querySelector("button").addEventListener("click", () => apercu.close());
+apercu.querySelector(".apercu-fermer").addEventListener("click", () => apercu.close());
 apercu.addEventListener("click", e => { if (e.target === apercu) apercu.close(); });
 apercu.addEventListener("close", () => { apercu.querySelector("iframe").src = "about:blank"; });
 </script>
